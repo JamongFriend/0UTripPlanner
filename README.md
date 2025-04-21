@@ -4,6 +4,18 @@
 
 ---
 
+0U Trip Planner는 사용자가 여행 계획을 작성하고, 이를 다른 사용자와 공유하거나 즐겨찾기할 수 있는 웹 기반 플랫폼입니다. React를 사용한 프론트엔드와 Node.js/Express를 사용한 백엔드로 구성되어 있으며, Kakao Maps API를 활용하여 여행지 정보를 제공합니다.
+
+## 📌 사용 기술
+
+- **Frontend**: React.js
+- **Backend**: Node.js, Express
+- **Database**: MySQL
+- **외부 API**: Kakao Maps, Kakao Login
+- **Dev Tools**: Android Studio, Postman, Git
+
+---
+
 ## ✨ 주요 기능
 
 - 여행 계획 생성 / 수정 / 삭제
@@ -76,16 +88,6 @@
 - 사용자 정보 수정
 - 계정 삭제
 - 고객센터 연결
-
----
-
-## 📌 사용 기술
-
-- **Frontend**: React.js
-- **Backend**: Node.js, Express
-- **Database**: MySQL
-- **외부 API**: Kakao Maps, Kakao Login
-- **Dev Tools**: Android Studio, Postman, Git
 
 ---
 
