@@ -1,0 +1,39 @@
+.myPlanner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 20px;
+}
+.myPlanner_outLineBox {
+    display: block;
+    position: relative;
+}
+.myPlanner_content{
+    background-origin: padding-box;
+    background-repeat: repeat;
+    background-size: auto;
+    border-radius: 16px;
+    border: 2px solid #BB86FC;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.myPlanner_title {
+    font-size: 20px;
+}
+
+.list_wrap {
+    max-height: 400px; /* 스크롤 가능한 최대 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤 활성화 */
+    margin-top: 16px;
+    width: 100%;
+}

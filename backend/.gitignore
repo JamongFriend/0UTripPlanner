@@ -1,0 +1,28 @@
+# Node.js dependencies
+node_modules/
+
+# 로그 파일
+logs/
+*.log
+*.log.*
+
+# 환경 설정 파일
+.env
+
+# 빌드 출력 디렉토리
+dist/
+build/
+
+# npm의 캐시 디렉토리
+.npm/
+
+# OS별 임시 파일
+.DS_Store
+Thumbs.db
+
+# IDE/editor 설정 파일
+.idea/
+.vscode/
+
+# 기타
+coverage/
