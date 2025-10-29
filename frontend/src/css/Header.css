@@ -1,0 +1,125 @@
+.mainHeader {
+  line-height: 18px;
+  background-color: #BB86FC;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.hd_Inner{
+  width: auto;
+  height: 100px;
+}
+
+/* 상단 메뉴 영역 */
+.hd_Top {
+  display: flex;
+  width: auto;
+  height: 66px;
+  justify-content: space-between; /*좌우 정렬*/
+  align-items: center; /*상하 정렬*/
+}
+
+.hd_top_left_wrap {
+  display: flex; /*가로로 배치*/
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.hd_LogoLayout {
+  display: flex;
+  align-items: center;
+  height: 66px;
+  width: 156px;
+  padding-right: 32px;
+}
+
+.hd_LogoLayout a {
+  display: inline-block;
+  height: 30px;
+  width: 124px;
+  padding-top: 16px;
+  background-image: url('../images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* 검색창 스타일 */
+.hd_searchLayout {
+  display: flex;
+  align-items: center;  /* 세로 중앙 정렬 */
+  max-width: 420px;
+  width: 100%;
+  gap: 8px;
+}
+
+.hd_sc_box {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  padding: 8px;
+  background-color: #ffffff;
+  border: 1px solid #d1d1d1;
+  flex: 1;
+
+}
+
+.input {
+  width: 100%;
+  outline: none;
+  border: none;
+  height: 17px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.hd_sc_button_wrap {
+  display: flex;
+  align-items: center;
+}
+
+.sc_button {
+  width: auto;
+  padding: 8px 10px;
+  background-color: #BB86FC;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: background-color 0.3s;
+}
+
+.sc_button:hover {
+  background-color: #9C66D5; /* 호버 효과 */
+}
+
+.headerNavBarInner {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem 0;
+  margin: 0;
+}
+
+.nav_bar_item a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.hd_func {
+  display: flex;
+  align-items: center;
+}
+
+.hd_f_option{
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+
+.hd_f_option a {
+  color: #fFffff;
+  text-decoration: none;
+  font-weight: bold;
+}

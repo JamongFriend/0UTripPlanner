@@ -1,0 +1,132 @@
+/* 로그인 창 박스 */
+.signAndRegister {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 20px;
+}
+
+.signAndRegister_outLineBox {
+    display: block;
+    position: relative;
+}
+
+.signAndRegister_content {
+    background-origin: padding-box;
+    background-repeat: repeat;
+    background-size: auto;
+    border-radius: 16px;
+    border: 2px solid #BB86FC;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 60px;
+    padding-bottom: 40px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* 타이틀 */
+.login_register_topTitle {
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: #BB86FC;
+    text-align: center;
+}
+
+/* 이메일, 비밀번호 입력 칸에 대한 스타일 */
+.input_title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #262626;
+}
+
+.input_box {
+    display: flex;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    background-color: #FFFFFF;
+    border: 1px solid #d1d1d1;
+}
+
+.input {
+    width: 100%;
+    outline: none;
+    border: none;
+    height: 17px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.input::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.contentBox {
+    display: flex;
+    height: 510px;
+}
+
+/* 로그인 버튼 */
+.login_button_wrap {
+    flex: 1 0 1;
+    margin-top: 20px;
+}
+
+.login_button {
+    background-color: #BB86FC;
+    width: 100%;
+    height: 48px;
+    border: none;
+    font-weight: 700;
+    border-radius: 64px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.login_button:disabled {
+    background-color: #bebebe;
+    color: #FFFFFF;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.login_button:hover {
+    background-color: #9C66D5;
+}
+
+.hr {
+    background-color: #bebebe;
+    margin-top: 16px;
+    border: none;
+    height: 0.4px;
+    width: 100%;
+}
+
+/* 회원가입 창으로 이동하는 구역 */
+
+.goto_register_title {
+    font-size: 25px;
+    font-weight: 400;
+    color: #919191;
+    text-align: center;
+}
+
+.goto_register a {
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 800;
+    color:#BB86FC;
+    cursor: pointer;
+}
+
+.goto_register a:hover {
+    color: #9C66D5;
+}
