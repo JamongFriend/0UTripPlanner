@@ -48,25 +48,6 @@ router.route('/')
         }
     });
 
-const twilio = require(twilio);
-const client = new twilio(accountSid, authToken);
-
-router.post('/send-sms', async(req, res, next) => {
-    const {phoneNum} = req.body;
-
-    client.messages.create({
-        body: '인증 코드: 123456',
-        to: phoneNumber,
-        from: '+1234567890',
-    })
-    .then((messages) => {
-        res.status(200).json({success: true}); 
-    })
-    .catch((error) => {
-        res.status(500).json({success: false, error: error.messages});
-    })
-})
-
 // 사용자 정보 업데이트
 router.post('/update', async (req, res, next) => {
     try {
