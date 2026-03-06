@@ -1,31 +1,34 @@
 .createPlan {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     position: relative;
     margin-top: 20px;
 }
+
 .create_plan_outLineBox {
     display: block;
-    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 }
-.create_plan_content{
-    background-origin: padding-box;
-    background-repeat: repeat;
-    background-size: auto;
+
+.content_box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+.create_plan_content {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    background-color: #fcfaff;
     border-radius: 16px;
     border: 2px solid #BB86FC;
     box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-top: 20px;
-    padding-bottom: 40px;
     width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
+    padding: 40px 60px;
 }
 
 .content_title {
@@ -33,55 +36,36 @@
     color: #BB86FC;
 }
 
-.input_box {
-    display: flex;
-    width: 450px;
-    border-radius: 8px;
-    padding: 16px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    background-color: #FFFFFF;
-    border: 1px solid #d1d1d1;
-    gap: 50px;
-}
-
-input {
+.input_box, .input_description_box {
     width: 100%;
-    outline: none;
-    border: none;
-    height: 17px;
-    font-size: 14px;
-    font-weight: 400;
-}
-
-.input_description_box {
+    box-sizing: border-box;
+    max-width: none;
     display: flex;
     border-radius: 8px;
-    padding: 8px;
+    padding: 12px 16px;
     margin-top: 8px;
-    margin-bottom: 8px;
     background-color: #FFFFFF;
     border: 1px solid #d1d1d1;
 }
 
-textarea {
-    width: 100%;
-    height: 150px;
-    outline: none;
-    border: none;
-    resize: none;
-    padding: 8px;
-    font-size: 14px;
-    font-weight: 400;
-}
 
 .input::placeholder {
     color: rgba(0, 0, 0, 0.5);
 }
 
+.kakaoMap_wrap {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    overflow: hidden; /* 지도가 둥근 테두리를 벗어나지 않게 */
+    border: 1px solid #d1d1d1;
+}
+
 #map {
     height: 300px;
     width: 100%;
+    background-color: #eee;
 }
 
 .create_plan_button_wrap {
@@ -113,4 +97,13 @@ textarea {
 
 .create_plan_button:hover {
     background-color: #9C66D5;
+}
+
+.plan_date_wrap .input_box {
+    gap: 10px;
+    align-items: center;
+}
+
+textarea:focus {
+    outline: none; 
 }

@@ -4,65 +4,72 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    margin-top: 20px;
+    margin-top: 40px;
+    width: 100%;
 }
 
 .signAndRegister_outLineBox {
     display: block;
-    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .signAndRegister_content {
-    background-origin: padding-box;
-    background-repeat: repeat;
-    background-size: auto;
+    background-color: #fcfaff;
     border-radius: 16px;
     border: 2px solid #BB86FC;
     box-sizing: border-box;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-top: 60px;
-    padding-bottom: 40px;
+    flex-direction: column;
+    padding: 50px 60px;
     width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
 }
 
 /* 타이틀 */
 .login_register_topTitle {
-    font-size: 30px;
-    margin-bottom: 10px;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 30px;
     color: #BB86FC;
     text-align: center;
 }
 
-/* 이메일, 비밀번호 입력 칸에 대한 스타일 */
-.input_title {
-    font-size: 15px;
-    font-weight: 600;
-    color: #262626;
+.contentBox {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto; 
 }
 
-.input_box {
-    display: flex;
-    border-radius: 8px;
-    padding: 16px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    background-color: #FFFFFF;
-    border: 1px solid #d1d1d1;
+.input_title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 5px;
+}
+
+.input_box:focus-within {
+    border: 1px solid #BB86FC;
 }
 
 .input {
     width: 100%;
     outline: none;
     border: none;
-    height: 17px;
-    font-size: 14px;
+    height: 24px;
+    font-size: 16px;
     font-weight: 400;
+}
+
+.input_box {
+    display: flex;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+    background-color: #FFFFFF;
+    border: 1px solid #d1d1d1;
+    transition: border 0.3s;
 }
 
 .input::placeholder {
@@ -102,31 +109,51 @@
     background-color: #9C66D5;
 }
 
-.hr {
-    background-color: #bebebe;
-    margin-top: 16px;
+hr {
     border: none;
-    height: 0.4px;
-    width: 100%;
+    border-top: 1px solid #eee;
+    margin: 30px 0;
 }
 
 /* 회원가입 창으로 이동하는 구역 */
 
 .goto_register_title {
-    font-size: 25px;
+    font-size: 15px;
     font-weight: 400;
-    color: #919191;
-    text-align: center;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .goto_register a {
     text-decoration: none;
-    font-size: 18px;
-    font-weight: 800;
-    color:#BB86FC;
-    cursor: pointer;
+    font-size: 15px;
+    font-weight: 700;
+    color: #BB86FC;
+    transition: color 0.2s;
 }
 
 .goto_register a:hover {
     color: #9C66D5;
+    text-decoration: underline;
+}
+
+/* 카카오 로그인 버튼 등 추가 섹션 */
+.kakao_login_wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.kakao_login_wrap a {
+    text-decoration: none;
+    color: #3C1E1E;
+    background-color: #FEE500;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    width: 100%;
+    text-align: center;
 }

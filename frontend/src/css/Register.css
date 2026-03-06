@@ -3,153 +3,128 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    margin-top: 20px;
+    margin-top: 40px;
+    width: 100%;
 }
+
 .register_outLineBox {
     display: block;
-    position: relative;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
 }
+
 .register_content{
-    background-origin: padding-box;
-    background-repeat: repeat;
-    background-size: auto;
+    background-color: #fcfaff;
     border-radius: 16px;
     border: 2px solid #BB86FC;
     box-sizing: border-box;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-top: 20px;
-    padding-bottom: 40px;
+    flex-direction: column;
+    padding: 40px 60px;
     width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
 }
+
 .register_title {
-    font-size: 30px;
+    font-size: 28px;
+    font-weight: 700;
     color: #BB86FC;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
+    text-align: center;
 }
 
 .content_title {
-    font-size: 20px;
+    font-size: 16px;
+    font-weight: 600;
     color: #BB86FC;
+    margin-bottom: 8px;
 }
 
-.input_box {
+.content_wrap {
     display: flex;
-    width: 450px;
-    border-radius: 8px;
-    padding: 16px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    background-color: #FFFFFF;
-    border: 1px solid #d1d1d1;
-    gap: 50px;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.content_wrap .input_box {
+    margin-bottom: 0;
+    flex: 1;
+}
+
+.input_box:focus-within {
+    border: 1px solid #BB86FC;
 }
 
 input {
     width: 100%;
     outline: none;
     border: none;
-    height: 17px;
-    font-size: 14px;
-    font-weight: 400;
-}
-
-.input_description_box {
-    display: flex;
-    border-radius: 8px;
-    padding: 8px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    background-color: #FFFFFF;
-    border: 1px solid #d1d1d1;
-}
-
-textarea {
-    width: 100%;
-    height: 150px;
-    outline: none;
-    border: none;
-    resize: none;
-    padding: 8px;
-    font-size: 14px;
-    font-weight: 400;
-}
-
-.input::placeholder {
-    color: rgba(0, 0, 0, 0.5);
-}
-
-.content_wrap {
-    display: flex;
-    align-items: center;
+    font-size: 15px;
 }
 
 /* 버튼들 */
-.check_id_button{
-    margin-left: 15px;
-    height: 40px;
+.check_id_button, .check_phone_button {
+    width: 100px;
+    height: 52px; 
     background-color: #BB86FC;
     border: none;
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 700;
-    border-radius: 64px;
+    border-radius: 8px;
     color: #FFFFFF;
     cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s;
 }
-.check_phone_button:hover {
+
+.check_id_button:hover, .check_phone_button:hover {
     background-color: #9C66D5;
 }
-
-.check_phone_button {
-    margin-left: 15px;
-    height: 40px;
-    background-color: #BB86FC;
-    border: none;
-    font-size: 17px;
-    font-weight: 700;
-    border-radius: 64px;
-    color: #FFFFFF;
-    cursor: pointer;
-}
-
-.check_phone_button:hover {
-    background-color: #9C66D5;
-}
-
 
 /*회원가입 버튼*/
 .register_button_wrap {
     display: flex;
     justify-content: center;
-    align-items: center;
-    flex: 1 0 1;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .register_button {
     background-color: #BB86FC;
-    width: 80%;
-    height: 48px;
+    width: 100%;
+    height: 56px;
     border: none;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     border-radius: 64px;
     color: #FFFFFF;
     cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .register_button:disabled {
     background-color: #bebebe;
-    color: #FFFFFF;
     cursor: not-allowed;
-    pointer-events: none;
 }
 
-.register_button:hover {
+.register_button:hover:not(:disabled) {
     background-color: #9C66D5;
+}
+
+/* 에러 메시지 스타일 */
+.error-msg {
+    color: #ff4d4d;
+    font-size: 12px;
+    margin-top: -15px;
+    margin-bottom: 15px;
+    margin-left: 5px;
+}
+
+.success-msg {
+    color: #4d79ff;
+    font-size: 12px;
+    margin-top: -15px;
+    margin-bottom: 15px;
+    margin-left: 5px;
 }
