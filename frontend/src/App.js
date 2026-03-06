@@ -9,6 +9,8 @@ import MyPlanner from './components/MyPlanner';
 import Suggest from './components/Suggest';
 import Map from './components/Map';
 import Kakao from './components/Kakao';
+import Share from './components/Share';
+import Bookmarks from './components/Bookmarks';
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
       <Route path='/Suggest' element={<Suggest />}/>
       <Route path='/Map' element={<Map />}/>
       <Route path='/Kakao' element={<Kakao />}/>
+      <Route path='/Share' element={<Share />}/>
+      <Route path='/Bookmarks' element={<Bookmarks />}/>
       </Routes>
     </Router>
   );
