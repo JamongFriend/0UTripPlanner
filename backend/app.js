@@ -18,8 +18,7 @@ const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
 const commentRouter = require('./routes/comment');
 const indexRouter = require('./routes');
-const createrRouter = require('./routes/creater');
-const managerRouter = require('./routes/manager');
+const myPlannerRouter = require('./routes/myPlanner');
 const shareRouter = require('./routes/share');
 const suggestRouter = require('./routes/suggest');
 
@@ -29,7 +28,7 @@ passportConfig();
 
 //express 앱 생성성
 const app = express();
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 8002);
 
 //Nunjucks 템플릿 엔진 설정
 app.set('view engine', 'html');
@@ -53,7 +52,7 @@ app.use(
     session({
         resave: false,
         saveUninitialized: false,
-        secret: process.env.SECRET,
+        secret: process.env.SECRET || 'fallback_secret_key',
         cookie: {
             httpOnly: true,
             secure: false
@@ -78,8 +77,7 @@ app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/comment', commentRouter);
 app.use('/', indexRouter);
-app.use('/creater', createrRouter);
-app.use('/manager', managerRouter);
+app.use('/myPlanner', myPlannerRouter);
 app.use('/share', shareRouter);
 app.use('/suggest', suggestRouter);
 
