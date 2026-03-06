@@ -24,7 +24,7 @@ module.exports = class AllPlan extends Sequelize.Model {
                 type: Sequelize.INTEGER,
                 allowNull: false
             },
-            perpose: {
+            purpose: {
                 type: Sequelize.TEXT,
                 allowNull: true
             },
@@ -42,7 +42,7 @@ module.exports = class AllPlan extends Sequelize.Model {
             }
         }, {
             sequelize,
-            timestamps: false,
+            timestamps: true,
             underscored: false,
             modelName: 'AllPlan',
             tableName: 'all_plans',
@@ -52,7 +52,6 @@ module.exports = class AllPlan extends Sequelize.Model {
         });
     }
 
-    // 하나의 AllPlan에 여러 개의 Plan이 속할 수 있도록 hasMany 관계 설정
     static associate(db) {
         AllPlan.hasMany(db.Plan, { foreignKey: 'allPlanId' });
     }

@@ -29,5 +29,7 @@ Suggest.init(sequelize);
 
 User.associate(db);
 Comment.associate(db);
+Plan.associate(db);
+AllPlan.associate(db);
 
 module.exports = db;

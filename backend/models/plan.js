@@ -55,8 +55,10 @@ module.exports = class Plan extends Sequelize.Model {
             collate: 'utf8mb4_general_ci',
         });
     }
-    // Plan이 AllPlan에 속하는 관계 설정
+    
     static associate(db) {
-        Plan.belongsTo(db.AllPlan, { foreignKey: 'allPlanId' });
+        db.Plan.belongsTo(db.AllPlan, { foreignKey: 'allPlanId' });
+
+        db.Plan.belongsTo(db.User, { foreignKey: 'userId', targetKey: 'id' });
     }
 };

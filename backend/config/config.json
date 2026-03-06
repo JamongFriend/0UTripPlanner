@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "root",
-    "password": "1234",
-    "database": "Sample",
+    "username": "trip",
+    "password": "83492761",
+    "database": "TripPlanner",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }
