@@ -3,23 +3,22 @@ import axios from 'axios';
 import '../css/MyPlanner.css'
 
 function MyPlanner() {
-     // 상태 정의
-     const [plannerList, setPlannerList] = useState([]);
+    const [plans, setPlans] = useState([]);
+    const plannerList = plans;
 
-     // 컴포넌트가 마운트될 때 API로부터 데이터 받아오기
-     useEffect(() => {
-         const fetchPlannerList = async () => {
-             try {
-                 // 백엔드 API로부터 데이터 받아오기
-                 const response = await axios.get('/manager/readList');
-                 setPlannerList(response.data);  // 받아온 데이터를 상태에 저장
-             } catch (error) {
-                 console.error("Error fetching data: ", error);
-             }
-         };
- 
-         fetchPlannerList();
-     }, []);
+    useEffect(() => {
+    const getPlans = async () => {
+        try {
+            const res = await axios.get('http://localhost:8002/myPlanner/readList', {
+                withCredentials: true
+            });
+            setPlans(res.data);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+    getPlans();
+}, []);
 
     return (
         <div className='myPlanner'>

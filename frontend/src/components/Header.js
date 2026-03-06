@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import '../css/Header.css';
 
 import {FaSearch} from "react-icons/fa";
 
 function Header() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const response = await axios.get('http://localhost:8002/auth/status', { withCredentials: true });
+        if (response.data.isLoggedIn) {
+          setIsLoggedIn(true);
+        }
+      } catch (err) {
+        setIsLoggedIn(false);
+      }
+    };
+    checkLoginStatus();
+  }, []);
+
   const navItems = [
     { title: '플래너 생성', path: '/Create' },
     { title: '내 플래너', path: '/MyPlanner' },
@@ -54,7 +71,11 @@ function Header() {
               </div>
               <div className='hd_f_option'>
                 <div className='hd_f_op_user'>
-                  <Link to="/Account">사용자</Link>
+                  {isLoggedIn ? (
+                    <Link to="/Account">사용자</Link>
+                  ) : (
+                    <Link to="/Login">로그인</Link>
+                  )}
                 </div>
               </div>
             </div>

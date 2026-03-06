@@ -12,7 +12,9 @@ function Suggest() {
     useEffect(() => {
         const fetchSuggestList = async () => {
             try {
-                const response = await axios.get('/backend/routes/suggest/suggest');
+                const response = await axios.get('http://localhost:8002/suggest', {
+                    withCredentials: true
+                });
                 setSuggestionData({
                     placeList: response.data.places || [],
                     hotelList: response.data.hotels || [],

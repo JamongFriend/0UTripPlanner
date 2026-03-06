@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/Login.css';
@@ -7,25 +7,35 @@ function Login() {
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const history = useNavigate();
+    const navigate = useNavigate();
     const [notAllow, setNotAllow] = useState(true);
   
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      
-      try {
-        // 로그인 요청 보내기
-        const response = await axios.post('/login', { id, password });
-        
-        if (response.data.success) {
-          // 로그인 성공 시 리다이렉트
-          history.push('/dashboard');
+    useEffect(() => {
+        if (id.trim() && password.trim()) {
+            setNotAllow(false);
+        } else {
+            setNotAllow(true);
         }
-      } catch (err) {
-        setError('Login failed. Please check your credentials.');
-      }
-    };
+    }, [id, password]);
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        try {
+            const response = await axios.post('http://localhost:8002/auth/login', 
+                { id, password }, 
+                { withCredentials: true }
+            );
+            
+            if (response.data.success) {
+                alert('로그인 성공!');
+                window.location.href = '/'; 
+            }
+        } catch (err) {
+            console.error(err);
+            setError('로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.');
+        }
+    };
     const handleInputChange = () => {
         if(id.trim() && password.trim()) {
             setNotAllow(false);
@@ -66,24 +76,21 @@ function Login() {
                                                 className='input'
                                                 type="password"
                                                 value={password}
-                                                onChange={(e) => {
-                                                    setPassword(e.target.value);
-                                                    handleInputChange();
-                                                }}
+                                                onChange={(e) => setPassword(e.target.value)}
                                                 required
                                                 placeholder="비밀번호를 입력하세요"
                                             />
                                         </div>
                                     </div>
-                                    {error && <p>{error}</p>}
+                                    {error && <p style={{ color: 'red', fontSize: '12px' }}>{error}</p>}
                                     <div className='login_button_wrap'>
                                         <button 
                                             type="submit"
                                             disabled={notAllow}
                                             className='login_button'>
-                                                로그인
+                                            로그인
                                         </button>
-                                    </div>
+                                </div>
                                 </div>
                                 <div className='kakao_login_wrap'>
                                     <div className='icon_wrap'></div>
