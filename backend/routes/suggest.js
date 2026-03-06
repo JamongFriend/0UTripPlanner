@@ -7,27 +7,33 @@ const router = express.Router();
 
 router.get('/suggest', async (req, res, next) => {
     try {
-        const places = await Suggest.findAll({ attributes: ['place', 'latitude', 'longitude'] });
-        const hotels = await Suggest.findAll({ attributes: ['hotel', 'latitude', 'longitude'] });
-        const restaurants = await Suggest.findAll({ attributes: ['restaurant', 'latitude', 'longitude'] });
+        const allSuggestions = await Suggest.findAll();
 
-        res.json({
-            places: places.map(item => ({
-                name: item.place,
-                latitude: item.latitude,
-                longitude: item.longitude
-            })),
-            hotels: hotels.map(item => ({
-                name: item.hotel,
-                latitude: item.latitude,
-                longitude: item.longitude
-            })),
-            restaurants: restaurants.map(item => ({
-                name: item.restaurant,
-                latitude: item.latitude,
-                longitude: item.longitude
-            }))
-        });
+        const response = {
+            places: allSuggestions
+                .filter(item => item.place)
+                .map(item => ({
+                    name: item.place,
+                    latitude: item.latitude,
+                    longitude: item.longitude
+                })),
+            hotels: allSuggestions
+                .filter(item => item.hotel)
+                .map(item => ({
+                    name: item.hotel,
+                    latitude: item.latitude,
+                    longitude: item.longitude
+                })),
+            restaurants: allSuggestions
+                .filter(item => item.restaurant)
+                .map(item => ({
+                    name: item.restaurant,
+                    latitude: item.latitude,
+                    longitude: item.longitude
+                }))
+        };
+
+        res.json(response);
     } catch (err) {
         console.error(err);
         next(err);
