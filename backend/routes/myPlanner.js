@@ -9,10 +9,6 @@ const router = express.Router();
 // 생성
 router.post('/create', isLoggedIn, async (req, res, next) => {
     const { planName, startDate, endDate, personnel, purpose, description, place, hotel } = req.body;
-    if (number) {
-        next('이용 불가능한 번호입니다.');
-        return;
-    }
     try {
         await Plan.create({
             id: `plan_${Date.now()}`, 

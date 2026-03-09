@@ -25,7 +25,7 @@
 
     <p>
         {% if user %}
-            {% if user.description.startsWith('http') %}
+            {% if user.description and user.description.startsWith('http') %}
                 <img src="{{user.description}}" width="50" height="50">
             {% endif %}
             {{user.name}}님 환영합니다!<br>
