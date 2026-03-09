@@ -1,39 +1,117 @@
 .myPlanner {
     display: flex;
     justify-content: center;
-    align-items: center;
-    position: relative;
-    margin-top: 20px;
-}
-.myPlanner_outLineBox {
-    display: block;
-    position: relative;
-}
-.myPlanner_content{
-    background-origin: padding-box;
-    background-repeat: repeat;
-    background-size: auto;
-    border-radius: 16px;
-    border: 2px solid #BB86FC;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-top: 20px;
-    padding-bottom: 40px;
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-.myPlanner_title {
-    font-size: 20px;
+    padding: 40px 20px;
 }
 
+.myPlanner_outLineBox {
+    width: 100%;
+    max-width: 1000px;
+}
+
+.myPlanner_content {
+    background-color: #fff;
+    border-radius: 20px;
+    border: 2px solid #BB86FC;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(187, 134, 252, 0.1);
+}
+
+.myPlanner_title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #BB86FC;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.list_box {
+    display: flex;
+    flex-wrap: wrap; /* 카드가 많아지면 다음 줄로 */
+    gap: 20px;
+    justify-content: center;
+    padding: 10px;
+}
+
+/* 개별 카드 아이템 스타일 */
+.planner_item {
+    background: #fdfbff;
+    border: 1px solid #e8daff;
+    border-radius: 12px;
+    width: 260px; /* 카드 너비 고정 */
+    padding: 18px;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.planner_item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 20px rgba(187, 134, 252, 0.2);
+    border-color: #BB86FC;
+}
+
+.planner_name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.planner_info {
+    font-size: 14px;
+    color: #666;
+}
+
+.info_row {
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.info_row .label {
+    font-weight: 600;
+    color: #888;
+}
+
+.detail_btn {
+    width: 100%;
+    margin-top: 15px;
+    background-color: transparent;
+    border: 1px solid #BB86FC;
+    color: #BB86FC;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.detail_btn:hover {
+    background-color: #BB86FC;
+    color: #fff;
+}
+
+/* 리스트 영역 스크롤바 디자인 */
 .list_wrap {
-    max-height: 400px; /* 스크롤 가능한 최대 높이 설정 */
-    overflow-y: auto; /* 세로 스크롤 활성화 */
-    margin-top: 16px;
+    max-height: 500px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.list_wrap::-webkit-scrollbar {
+    width: 6px;
+}
+
+.list_wrap::-webkit-scrollbar-thumb {
+    background-color: #BB86FC;
+    border-radius: 10px;
+}
+
+.no_list {
+    text-align: center;
+    padding: 50px;
+    color: #aaa;
     width: 100%;
 }

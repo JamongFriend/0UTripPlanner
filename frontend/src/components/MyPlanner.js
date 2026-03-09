@@ -35,17 +35,31 @@ function MyPlanner() {
                         </div>
                         <div className='list_wrap'>
                             <div className='list_box'>
-                                {plannerList.length > 0 ? (
-                                    plannerList.map((plan, index) => (
+                                {plans.length > 0 ? (
+                                    plans.map((plan, index) => (
                                         <div key={index} className='planner_item'>
-                                            <div className='planner_name'>{plan.name}</div>
-                                            <div className='planner_date'>{plan.date}</div>
-                                            <div className='planner_place'>{plan.place}</div>
-                                            {/* 필요에 따라 다른 정보도 출력 가능 */}
+                                            <div className='planner_header'>
+                                                <span className='planner_name'>{plan.name}</span>
+                                            </div>
+                                            <div className='planner_info'>
+                                                <div className='info_row'>
+                                                    <span className='label'>📅 날짜:</span>
+                                                    <span className='value'>{plan.date}</span>
+                                                </div>
+                                                <div className='info_row'>
+                                                    <span className='label'>📍 장소:</span>
+                                                    <span className='value'>{plan.place}</span>
+                                                </div>
+                                            </div>
+                                            <div className='planner_footer'>
+                                                <button className='detail_btn'>상세 보기</button>
+                                            </div>
                                         </div>
                                     ))
                                 ) : (
-                                    <p>플래너 목록이 없습니다.</p>
+                                    <div className='no_list'>
+                                        <p>아직 생성된 플래너가 없습니다.</p>
+                                    </div>
                                 )}
                             </div>
                         </div>
