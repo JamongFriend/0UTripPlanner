@@ -1,0 +1,59 @@
+/* Main.css */
+.main_container {
+  width: 100%;
+}
+
+.hero_section {
+  background: linear-gradient(rgba(187, 134, 252, 0.8), rgba(187, 134, 252, 0.6)), 
+              url('../images/main_background.avif') no-repeat center/cover;
+  height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+}
+
+.start_btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 30px;
+  background-color: white;
+  color: #BB86FC;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 30px;
+  transition: 0.3s;
+}
+
+.start_btn:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+.feature_section {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.feature_card {
+  background: #fdfbff;
+  padding: 40px;
+  border-radius: 15px;
+  border: 1px solid #e8daff;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.feature_card:hover {
+  border-color: #BB86FC;
+  box-shadow: 0 10px 20px rgba(187, 134, 252, 0.1);
+}
