@@ -11,24 +11,27 @@ import Map from './components/Map';
 import Kakao from './components/Kakao';
 import Share from './components/Share';
 import Bookmarks from './components/Bookmarks';
+import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
   return (
-    <Router>
-      <Header />
-      <Routes>
-      <Route path="/" element={<Main />} />
-      <Route path="/Login" element={<Login />} />
-      <Route path='/Register' element={<Register />}/>
-      <Route path='/Create' element={<Create />}/>
-      <Route path='/MyPlanner' element={<MyPlanner />}/>
-      <Route path='/Suggest' element={<Suggest />}/>
-      <Route path='/Map' element={<Map />}/>
-      <Route path='/Kakao' element={<Kakao />}/>
-      <Route path='/Share' element={<Share />}/>
-      <Route path='/Bookmarks' element={<Bookmarks />}/>
-      </Routes>
-    </Router>
+    <AuthProvider> 
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path='/Register' element={<Register />}/>
+          <Route path='/Create' element={<Create />}/>
+          <Route path='/MyPlanner' element={<MyPlanner />}/>
+          <Route path='/Suggest' element={<Suggest />}/>
+          <Route path='/Map' element={<Map />}/>
+          <Route path='/Kakao' element={<Kakao />}/>
+          <Route path='/Share' element={<Share />}/>
+          <Route path='/Bookmarks' element={<Bookmarks />}/>
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

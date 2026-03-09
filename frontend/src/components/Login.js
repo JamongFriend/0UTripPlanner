@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../contexts/AuthContext';
 import '../css/Login.css';
 
 function Login() {
@@ -10,6 +11,8 @@ function Login() {
     const navigate = useNavigate();
     const [notAllow, setNotAllow] = useState(true);
   
+    const { setIsLoggedIn } = useAuth();
+
     useEffect(() => {
         if (id.trim() && password.trim()) {
             setNotAllow(false);
@@ -29,7 +32,8 @@ function Login() {
             
             if (response.data.success) {
                 alert('로그인 성공!');
-                window.location.href = '/'; 
+                setIsLoggedIn(true);
+                navigate('/');
             }
         } catch (err) {
             console.error(err);

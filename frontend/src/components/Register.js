@@ -4,6 +4,8 @@ import axios from 'axios';
 import '../css/Register.css';
 
 function Register() {
+    axios.defaults.withCredentials = true;
+
     const [formData, setFormData] = useState({
         id: '',
         email: '',
@@ -21,6 +23,7 @@ function Register() {
     const [loading, setLoading] = useState(false);
     const [isPhoneVerified, setIsPhoneVerified] = useState(false);
     const [phoneMessage, setPhoneMessage] = useState('');
+    const [lastCheckedId, setLastCheckedId] = useState('');
 
     useEffect(() => {
         const { id, password, checkPassword, name, phone, checkPhone } = formData;
@@ -49,48 +52,55 @@ function Register() {
         return '';
     };
 
-    // 아이디 변경 시 처리
-    const handleIdChange = (event) => {
-        const newId = event.target.value;
-        setFormData((prevState) => ({
-            ...prevState,
-            id: newId,
-        }));
-
-        // 형식 검사
-        const errorMessage = validateId(newId);
-        setIdError(errorMessage);
-    };
-
    const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
         
         if (name === 'id') {
-            setIdError(validateId(value));
-            setIsIdChecked(false); // 아이디가 바뀌면 다시 중복확인 필요
+            const error = validateId(value);
+            setIdError(error || '');
+            setIsIdChecked(false);
         }
     };
 
     // 2. 아이디 중복 확인 함수
     const checkIdAvailability = async () => {
-        if (!formData.id || validateId(formData.id)) {
-            alert('유효한 아이디를 입력해주세요.');
+        if (isIdChecked && formData.id === lastCheckedId) {
+            alert('✅ 이미 중복 확인이 완료된 아이디입니다.');
             return;
         }
+
+        const validationMsg = validateId(formData.id);
+        if (!formData.id || validateId(formData.id)) {
+            alert(validationMsg || '유효한 아이디를 입력해주세요.');
+            return;
+        }
+
         setLoading(true);
         try {
-            const response = await axios.get(`http://localhost:8002/auth/check-id/${formData.id}`);
-            
+            const response = await axios.get(
+                `http://localhost:8002/auth/check-id/${formData.id}?t=${Date.now()}`,
+                { withCredentials: true }
+            );
             if (response.data.success) {
-                alert('사용 가능한 아이디입니다.');
+                alert('✅ 사용 가능한 아이디입니다.');
                 setIdError('사용 가능한 아이디입니다.');
                 setIsIdChecked(true);
+                setLastCheckedId(formData.id);
+            } else {
+                alert('❌ 이미 사용 중인 아이디입니다.');
+                setIdError('이미 등록된 사용자 아이디입니다.');
+                setIsIdChecked(false);
+                setLastCheckedId('');
             }
         } catch (error) {
-            setIdError('이미 등록된 사용자 아이디입니다.');
+            const message = error.response?.status === 400 
+                ? '이미 등록된 사용자 아이디입니다.' 
+                : '서버 통신 오류가 발생했습니다.';
+            setIdError(message);
             setIsIdChecked(false);
-            alert('이미 사용 중인 아이디입니다.');
+            setLastCheckedId('');
+            alert(`❌ ${message}`);
         } finally {
             setLoading(false);
         }
@@ -119,9 +129,7 @@ function Register() {
     const handleSendCode = async () => {
         if (!formData.phone) return alert("전화번호를 입력하세요.");
         try {
-            const res = await axios.post('http://localhost:8002/auth/send-code', { 
-                phone: formData.phone 
-            });
+            const res = await axios.post('http://localhost:8002/auth/send-code', { phone: formData.phone });
             if (res.data.success) alert("인증번호가 발송되었습니다.");
         } catch (err) {
             alert("발송 실패");
