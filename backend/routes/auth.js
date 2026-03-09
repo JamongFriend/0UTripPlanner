@@ -144,6 +144,8 @@ router.get('/status', (req, res) => {
     res.setHeader('Expires', '0');
 
     console.log("--- Status 체크 시작 ---");
+    console.log("1. 세션 ID:", req.sessionID); 
+    console.log("2. 세션 객체 전체:", req.session);
     console.log("인증 여부:", req.isAuthenticated());
 
     if (req.isAuthenticated() && req.user) {
