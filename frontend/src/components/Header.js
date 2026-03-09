@@ -18,7 +18,6 @@ function Header() {
         params: { t: Date.now() } 
       });
       
-      // 현재 상태와 서버 응답이 다를 때만 업데이트해서 루프 차단
       if (isLoggedIn !== response.data.isLoggedIn) {
         setIsLoggedIn(response.data.isLoggedIn);
       }
@@ -28,20 +27,17 @@ function Header() {
   };
 
   checkLoginStatus();
-  // 💡 location.pathname을 의존성 배열에서 잠시 빼보세요. 루프의 원인일 확률이 높습니다.
   }, [setIsLoggedIn]);
 
   const handleLogout = async (e) => {
     if (e) e.preventDefault();
     try {
       console.log("로그아웃 프로세스 시작...");
-      // 로그아웃 요청을 보내고 응답을 받을 때까지 무조건 await
       const response = await axios.post('http://localhost:8002/auth/logout', {}, { withCredentials: true });
       
       if (response.data.success) {
         setIsLoggedIn(false);
         alert('로그아웃 되었습니다.');
-        // 서버 처리가 끝난 후 안전하게 이동
         navigate('/', { replace: true });
       }
     } catch (err) {
