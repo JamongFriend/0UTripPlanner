@@ -31,19 +31,22 @@ router.post('/create', isLoggedIn, async (req, res, next) => {
 })
 
 // 수정
-router.post('/update/:name', isLoggedIn, async (req, res, next) => {
+router.post('/edit/:id', isLoggedIn, async (req, res, next) => {
     try {
+        const { planName, startDate, endDate, personnel, purpose, place, hotel, description } = req.body;
+        
         const result = await Plan.update({
-            planName: req.body.name,
-            startDate: req.body.date,
-            personnel: req.body.peoples,
-            purpose: req.body.perpose,
-            place: req.body.place,
-            hotel: req.body.hotel,
-            description: req.body.description
+            planName,
+            startDate,
+            endDate,
+            personnel,
+            purpose,
+            place,
+            hotel,
+            description
         }, {
             where: { 
-                planName: req.params.name,
+                id: req.params.id,
                 userId: req.user.id
             }
         });
@@ -57,11 +60,11 @@ router.post('/update/:name', isLoggedIn, async (req, res, next) => {
 });
 
 // 여행 계획 삭제
-router.delete('/delete/:plan', isLoggedIn, async (req, res, next) => {
+router.delete('/delete/:id', isLoggedIn, async (req, res, next) => {
     try {
         const result = await Plan.destroy({
             where: { 
-                planName: req.params.plan,
+                id: req.params.id,
                 userId: req.user.id 
             }
         });
@@ -78,8 +81,10 @@ router.get('/readList', isLoggedIn, async (req, res, next) => {
         const plans = await Plan.findAll({
             where: { userId: req.user.id },
             attributes: [
+                'id',
                 ['planName', 'name'],
-                ['startDate', 'date'], 
+                'startDate',
+                'endDate', 
                 ['personnel', 'peoples'], 
                 ['purpose', 'perpose'], 
                 'place', 

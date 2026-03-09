@@ -1,39 +1,51 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import '../css/Create.css';
 
-function Create() {
-    const [formData, setFormData] = useState({
-    planName: '', 
-    startDate: new Date(), 
-    endDate: new Date(),
-    personnel: 1,  
-    purpose: '',  
-    place: '',
-    hotel: '',
-    description: ''
-    });
-    const [isShared, setIsShared] = useState(false);
+function Edit() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const planData = location.state?.planData;
+
+    const [formData, setFormData] = useState(null);
 
     useEffect(() => {
-        window.kakao.maps.load(() => {
-            const container = document.getElementById('map');
-            const options = {
-                center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-                level: 3
-            };
-            const map = new window.kakao.maps.Map(container, options);
-            map.relayout();
+        if (!planData) {
+            alert("수정할 데이터가 없습니다. 목록으로 돌아갑니다.");
+            navigate('/myPlanner');
+            return;
+        }
+        
+        setFormData({
+            id: planData.id,
+            planName: planData.name || planData.planName || "",
+            startDate: planData.startDate ? new Date(planData.startDate) : new Date(),
+            endDate: planData.endDate ? new Date(planData.endDate) : new Date(),
+            personnel: planData.peoples || planData.personnel || 1,
+            purpose: planData.perpose || planData.purpose || "",
+            place: planData.place || "",
+            hotel: planData.hotel || "",
+            description: planData.description || ""
         });
-    }, []);
+
+        if (window.kakao && window.kakao.maps) {
+            window.kakao.maps.load(() => {
+                const container = document.getElementById('map');
+                if (container) {
+                    const options = {
+                        center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+                        level: 3
+                    };
+                    new window.kakao.maps.Map(container, options);
+                }
+            });
+        }
+    }, [planData, navigate]);
 
     const handleDateChange = (date, name) => {
-        setFormData({
-            ...formData,
-            [name]: date
-        });
+        setFormData({ ...formData, [name]: date });
     };
 
     const handleChange = (e) => {
@@ -41,34 +53,31 @@ function Create() {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleCreate = async (e) => {
+    const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            const postData = { ...formData, isShared };
-
-            const res = await axios.post('http://localhost:8002/myPlanner/create', formData, {
+            const res = await axios.post(`http://localhost:8002/myPlanner/edit/${formData.id}`, formData, {
                 withCredentials: true
             });
 
             if (res.data.success) {
-                const message = isShared 
-                    ? '여행 계획이 생성 및 공유되었습니다!' 
-                    : '여행 계획이 생성되었습니다!';
-                alert(message);
-                window.location.href = '/myPlanner';
+                alert('여행 계획이 수정되었습니다!');
+                navigate('/myPlanner');
             }
         } catch (err) {
-            console.error("생성 에러:", err);
-            alert('생성에 실패했습니다. 다시 시도해주세요.');
+            console.error("수정 에러:", err);
+            alert('수정에 실패했습니다.');
         }
     };
 
-  return (
-    <div className='createPlan'>
-            <form className='create_plan_outLineBox' onSubmit={handleCreate}>
+    if (!formData) return <div>로딩 중...</div>;
+
+    return (
+        <div className='createPlan'>
+            <form className='create_plan_outLineBox' onSubmit={handleUpdate}>
                 <div className='create_plan_content'>
                     <div className='content_box'>
-                        {/* ... 기존 입력 필드들 (planName, personnel 등) ... */}
+                        <div className='content_title'><h2>플래너 수정</h2></div>
                         <div className='plan_name_wrap'>
                             <div className='content_title'>
                                 <div className='plan_name_title'>플래너 이름</div>
@@ -153,24 +162,8 @@ function Create() {
                             </div>
                         </div>
 
-                        {/* 💡 공유 여부 체크박스 추가 */}
-                        <div className='share_check_wrap'>
-                            <label className='share_checkbox_label'>
-                                <input 
-                                    type="checkbox" 
-                                    className='share_checkbox'
-                                    checked={isShared}
-                                    onChange={(e) => setIsShared(e.target.checked)}
-                                />
-                                <span>이 플래너를 다른 사람들과 공유하기</span>
-                            </label>
-                        </div>
-
-                        {/* 생성 버튼 */}
                         <div className='create_plan_button_wrap'>
-                            <button type="submit" className='create_plan_button'>
-                                생성
-                            </button>
+                            <button type="submit" className='create_plan_button'>수정 완료</button>
                         </div>
                     </div>
                 </div>
@@ -179,4 +172,4 @@ function Create() {
     );
 }
 
-export default Create;
+export default Edit;

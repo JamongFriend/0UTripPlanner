@@ -5,6 +5,7 @@ import Main from './components/Main';
 import Login from './components/Login';
 import Register from './components/Register';
 import Create from './components/Create';
+import Edit from './components/Edit';
 import MyPlanner from './components/MyPlanner';
 import Suggest from './components/Suggest';
 import Map from './components/Map';
@@ -23,6 +24,7 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path='/Register' element={<Register />}/>
           <Route path='/Create' element={<Create />}/>
+          <Route path='/Edit' element={<Edit />}/>
           <Route path='/MyPlanner' element={<MyPlanner />}/>
           <Route path='/Suggest' element={<Suggest />}/>
           <Route path='/Map' element={<Map />}/>

@@ -1,3 +1,4 @@
+/* MyPlanner.css */
 .myPlanner {
     display: flex;
     justify-content: center;
@@ -114,4 +115,57 @@
     padding: 50px;
     color: #aaa;
     width: 100%;
+}
+
+/* MyPlanner 상세 팝업 스타일 */
+.modal_overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 2000;
+}
+
+.modal_content.scale_up {
+    background: white;
+    width: 90%; max-width: 500px;
+    border-radius: 24px; padding: 35px;
+    position: relative;
+    animation: zoomIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes zoomIn {
+    0% { opacity: 0; transform: scale(0.5); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* 하단 버튼 그룹 */
+.modal_footer {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.modal_footer button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: 0.2s;
+}
+
+.edit_btn { background: #f3ebff; color: #BB86FC; }
+.share_btn { background: #eef2ff; color: #4f46e5; }
+.delete_btn { background: #fff1f2; color: #e11d48; }
+
+.modal_footer button:hover {
+    transform: translateY(-2px);
+    filter: brightness(0.95);
 }
