@@ -5,7 +5,7 @@
   padding-right: 32px;
 }
 
-.hd_Inner{
+.hd_Inner {
   width: auto;
   height: 100px;
 }
@@ -15,12 +15,12 @@
   display: flex;
   width: auto;
   height: 66px;
-  justify-content: space-between; /*좌우 정렬*/
-  align-items: center; /*상하 정렬*/
+  justify-content: space-between;
+  align-items: center;
 }
 
 .hd_top_left_wrap {
-  display: flex; /*가로로 배치*/
+  display: flex;
   align-items: center;
   justify-content: flex-start;
 }
@@ -37,16 +37,16 @@
   display: inline-block;
   height: 30px;
   width: 124px;
-  padding-top: 16px;
   background-image: url('../images/logo.png');
   background-size: contain;
   background-repeat: no-repeat;
+  /* padding-top 제거: 로고 위치 정렬 최적화 */
 }
 
 /* 검색창 스타일 */
 .hd_searchLayout {
   display: flex;
-  align-items: center;  /* 세로 중앙 정렬 */
+  align-items: center;
   max-width: 420px;
   width: 100%;
   gap: 8px;
@@ -60,7 +60,6 @@
   background-color: #ffffff;
   border: 1px solid #d1d1d1;
   flex: 1;
-
 }
 
 .input {
@@ -70,11 +69,6 @@
   height: 17px;
   font-size: 14px;
   font-weight: 400;
-}
-
-.hd_sc_button_wrap {
-  display: flex;
-  align-items: center;
 }
 
 .sc_button {
@@ -90,36 +84,65 @@
 }
 
 .sc_button:hover {
-  background-color: #9C66D5; /* 호버 효과 */
+  background-color: #9C66D5;
 }
 
+/* 네비게이션 바 (핵심 수정 영역) */
 .headerNavBarInner {
   list-style: none;
   display: flex;
   justify-content: space-around;
-  padding: 0.5rem 0;
+  padding: 0; /* padding 제거하여 li가 높이를 꽉 채우게 함 */
   margin: 0;
+  height: 34px; /* hd_Inner(100px) - hd_Top(66px) 나머지 높이 설정 */
+}
+
+.nav_bar_item {
+  flex: 1; /* 모든 칸을 동일한 너비로 배분 */
+  display: flex;
+  align-items: stretch; /* 자식인 Link가 높이를 꽉 채우도록 함 */
 }
 
 .nav_bar_item a {
+  display: flex; /* flex로 변경하여 칸 전체 영역 확보 */
+  align-items: center;
+  justify-content: center;
+  width: 100%;
   color: #ffffff;
   text-decoration: none;
   font-weight: bold;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+/* 💡 칸 전체 호버 효과 */
+.nav_bar_item a:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* 칸 전체 배경색 변경 */
+  color: #E0E0E0;
+}
+
+/* 상단 기능 영역 */
 .hd_func {
   display: flex;
   align-items: center;
 }
 
-.hd_f_option{
+.hd_f_option {
   display: flex;
   align-items: center;
   padding: 8px;
 }
 
-.hd_f_option a {
-  color: #fFffff;
+.hd_f_option a, .logout_btn {
+  color: #ffffff;
   text-decoration: none;
   font-weight: bold;
+  transition: color 0.2s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hd_f_option a:hover, .logout_btn:hover {
+  color: #E0E0E0;
 }
