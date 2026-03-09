@@ -8,7 +8,7 @@ const router = express.Router();
 
 // 생성
 router.post('/create', isLoggedIn, async (req, res, next) => {
-    const { planName, startDate, endDate, personnel, purpose, description, place, hotel } = req.body;
+    const { planName, startDate, endDate, personnel, purpose, description, place, hotel, isShared } = req.body;
     try {
         await Plan.create({
             id: `plan_${Date.now()}`, 
@@ -20,9 +20,9 @@ router.post('/create', isLoggedIn, async (req, res, next) => {
             place,
             hotel,
             description,
+            isShared: isShared ? 1 : 0,
             userId: req.user.id
         });
-
         res.json({ success: true, message: '플래너 생성 성공' });
     } catch (err) {
         console.error(err);
@@ -33,8 +33,8 @@ router.post('/create', isLoggedIn, async (req, res, next) => {
 // 수정
 router.post('/edit/:id', isLoggedIn, async (req, res, next) => {
     try {
-        const { planName, startDate, endDate, personnel, purpose, place, hotel, description } = req.body;
-        
+        const { planName, startDate, endDate, personnel, purpose, place, hotel, description, isShared } = req.body;
+        console.log("백엔드가 실제 받은 데이터:", req.body);
         const result = await Plan.update({
             planName,
             startDate,
@@ -43,7 +43,8 @@ router.post('/edit/:id', isLoggedIn, async (req, res, next) => {
             purpose,
             place,
             hotel,
-            description
+            description,
+            isShared: Number(isShared),
         }, {
             where: { 
                 id: req.params.id,
@@ -89,7 +90,9 @@ router.get('/readList', isLoggedIn, async (req, res, next) => {
                 ['purpose', 'perpose'], 
                 'place', 
                 'hotel',
-                'description'
+                'description',
+                'isShared',
+                'likes'
             ]
         });
         res.json(plans);

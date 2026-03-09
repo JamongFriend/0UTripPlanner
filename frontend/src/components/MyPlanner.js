@@ -30,6 +30,21 @@ function MyPlanner() {
         navigate('/edit', { state: { planData: plan } });
     };
 
+    const handleShare = async (plan) => {
+    try {
+        const res = await axios.post('http://localhost:8002/myPlanner/share', {
+            id: plan.id,
+            name: plan.name
+        }, {
+            withCredentials: true 
+        });
+        
+        if (res.data.success) alert("공유 성공!");
+    } catch (err) {
+        alert(err.response?.data?.message || "공유 실패");
+    }
+};
+
     const handleDelete = async (id) => {
         if (window.confirm("정말 이 플래너를 삭제하시겠습니까?")) {
             try {
@@ -119,10 +134,17 @@ function MyPlanner() {
                         <div className='modal_body'>
                             <div className='info_section'>
                                 <p><strong>👥 인원:</strong> {selectedPlan.peoples}명</p>
+                                <p><strong>📍 장소:</strong> {selectedPlan.place || '정보 없음'}</p>
                                 <p><strong>🏨 숙소:</strong> {selectedPlan.hotel || '정보 없음'}</p>
-                                <p><strong>🍽️ 식당:</strong> {selectedPlan.restaurant || '정보 없음'}</p>
+                                <p>
+                                    <strong>📢 공유 여부:</strong> 
+                                    {(selectedPlan.isShared === 1 || selectedPlan.isShared === true || selectedPlan.isShared === "1") 
+                                        ? "공개" : "비공개"}
+                                    {(selectedPlan.isShared === 1 || selectedPlan.isShared === true) && ` (❤️ ${selectedPlan.likes || 0})`}
+                                </p>
                             </div>
                             <div className='description_section'>
+                                <p><strong>🎯 목적:</strong> {selectedPlan.perpose || selectedPlan.purpose || "설정된 목적이 없습니다."}</p>
                                 <p><strong>📋 메모:</strong> {selectedPlan.perpose || "기록된 목적이나 메모가 없습니다."}</p>
                             </div>
                         </div>

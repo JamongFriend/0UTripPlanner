@@ -10,6 +10,7 @@ function Edit() {
     const planData = location.state?.planData;
 
     const [formData, setFormData] = useState(null);
+    const [isShared, setIsShared] = useState(false);
 
     useEffect(() => {
         if (!planData) {
@@ -29,6 +30,8 @@ function Edit() {
             hotel: planData.hotel || "",
             description: planData.description || ""
         });
+
+        setIsShared(planData.isShared === 1 || planData.isShared === true);
 
         if (window.kakao && window.kakao.maps) {
             window.kakao.maps.load(() => {
@@ -55,8 +58,10 @@ function Edit() {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-        try {
-            const res = await axios.post(`http://localhost:8002/myPlanner/edit/${formData.id}`, formData, {
+        
+        const dataToSend = { ...formData, isShared: isShared ? 1 : 0 };
+        try {            
+            const res = await axios.post(`http://localhost:8002/myPlanner/edit/${formData.id}`, dataToSend, {
                 withCredentials: true
             });
 
@@ -160,6 +165,19 @@ function Edit() {
                             <div className='input_description_box'>
                                 <textarea name="description" value={formData.description} onChange={handleChange} placeholder="플래너 설명을 입력하세요" style={{ width: '100%', height: '100px' }} />
                             </div>
+                        </div>
+
+                        <div className='share_check_wrap' style={{ margin: '20px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <input 
+                                type="checkbox" 
+                                id="isShared"
+                                checked={isShared} 
+                                onChange={(e) => setIsShared(e.target.checked)}
+                                style={{ width: '20px', height: '20px', cursor: 'pointer' }}
+                            />
+                            <label htmlFor="isShared" style={{ cursor: 'pointer', fontWeight: 'bold', color: '#666' }}>
+                                이 플래너를 공유 게시판에 게시하기
+                            </label>
                         </div>
 
                         <div className='create_plan_button_wrap'>

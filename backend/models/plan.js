@@ -9,8 +9,8 @@ module.exports = class Plan extends Sequelize.Model {
                 primaryKey: true
             },
             userId: {
-            type: Sequelize.STRING(50),
-            allowNull: false,
+                type: Sequelize.STRING(50),
+                allowNull: false,
             },
             planName: {
                 type: Sequelize.STRING(100),
@@ -40,17 +40,23 @@ module.exports = class Plan extends Sequelize.Model {
                 type: Sequelize.TEXT,
                 allowNull: true
             },
-            restaurant: {
-                type: Sequelize.TEXT,
-                allowNull: true
-            },
             description: {
                 type: Sequelize.TEXT,
                 allowNull: true
+            },
+            isShared: {
+                type: Sequelize.BOOLEAN,
+                allowNull: false,
+                defaultValue: false
+            },
+            likes: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+                defaultValue: 0
             }
         }, {
             sequelize,
-            timestamps: false,
+            timestamps: true,
             underscored: false,
             modelName: 'Plan',
             tableName: 'plans',
@@ -61,8 +67,6 @@ module.exports = class Plan extends Sequelize.Model {
     }
     
     static associate(db) {
-        db.Plan.belongsTo(db.AllPlan, { foreignKey: 'allPlanId' });
-
         db.Plan.belongsTo(db.User, { foreignKey: 'userId', targetKey: 'id' });
     }
 };
