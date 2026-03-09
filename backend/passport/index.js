@@ -8,12 +8,22 @@ module.exports = () => {
     done(null, user.id);
   });
 
-  passport.deserializeUser((id, done) => {
-    User.findOne({
-      where: { id }
-    })
-    .then(user => done(null, user))
-    .catch(err => done(err));
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await User.findOne({ 
+        where: { id },
+        attributes: ['id', 'name', 'email']
+      });
+      
+      if (user) {
+        done(null, user);
+      } else {
+        done(null, false);
+      }
+    } catch (err) {
+      console.error("deserializeUser 에러:", err);
+      done(err);
+    }
   });
 
   local();

@@ -1,54 +1,10 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const { logout } = require('./helpers');
 
 const router = express.Router();
 
-// 회원가입 페이지 또는 회원가입 처리
-router.route('/')
-    .get(async (req, res, next) => {
-        try {
-            const users = await User.findAll({
-                attributes: ['id']
-            });
-
-            res.render('user', {
-                title: require('../package.json').name,
-                port: process.env.PORT,
-                users: users.map(user => user.id)
-            });
-        } catch (err) {
-            console.error(err);
-            next(err);
-        }
-    })
-    .post(async (req, res, next) => {
-        const { id, password, name, description } = req.body;
-
-        try {
-            const user = await User.findOne({ where: { id } });
-            if (user) {
-                res.status(400).send('이미 등록된 사용자 아이디입니다.');
-                return;
-            }
-
-            const hash = await bcrypt.hash(password, 12);
-            await User.create({
-                id,
-                password: hash,
-                name,
-                description
-            });
-
-            res.redirect('/');
-        } catch (err) {
-            console.error(err);
-            next(err);
-        }
-    });
-
-// 사용자 정보 업데이트
+// 사용자 정보 수정
 router.post('/update', async (req, res, next) => {
     try {
         const result = await User.update({
@@ -65,7 +21,7 @@ router.post('/update', async (req, res, next) => {
     }
 });
 
-// 사용자 삭제
+// 회원 탈퇴
 router.get('/delete/:id', async (req, res, next) => {
     try {
         const result = await User.destroy({

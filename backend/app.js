@@ -42,24 +42,7 @@ sequelize.sync({ force: false })
     .then(() => console.log('데이터베이스 연결 성공'))
     .catch(err => console.error(err));
 
-// 요청 미들웨어 설정
-app.use(
-    morgan('dev'),
-    express.static(path.join(__dirname, 'public')),
-    express.json(),
-    express.urlencoded({ extended: false }),
-    cookieParser(process.env.SECRET),
-    session({
-        resave: false,
-        saveUninitialized: false,
-        secret: process.env.COOKIE_SECRET,
-        cookie: {
-            httpOnly: true,
-            secure: false
-        },
-        name: 'session-cookie'
-    })
-);
+app.use(morgan('dev'));
 
 // CORS 설정
 app.use(cors({
@@ -67,6 +50,25 @@ app.use(cors({
     methods: 'GET,POST,PUT,DELETE',  // 사용할 HTTP 메소드 설정
     credentials: true, // 필요시 쿠키도 공유할 수 있도록 설정
 }));
+
+// 요청 미들웨어 설정
+app.use(
+    express.static(path.join(__dirname, 'public')),
+    express.json(),
+    express.urlencoded({ extended: false }),
+    cookieParser(process.env.COOKIE_SECRET),
+    session({
+        resave: false,
+        saveUninitialized: false,
+        secret: process.env.COOKIE_SECRET,
+        cookie: {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax',
+        },
+        name: 'session-cookie'
+    })
+);
 
 // passport설정
 app.use(passport.initialize());
