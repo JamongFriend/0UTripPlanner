@@ -8,6 +8,10 @@ module.exports = class Plan extends Sequelize.Model {
                 allowNull: false,
                 primaryKey: true
             },
+            userId: {
+            type: Sequelize.STRING(50),
+            allowNull: false,
+            },
             planName: {
                 type: Sequelize.STRING(100),
                 allowNull: false

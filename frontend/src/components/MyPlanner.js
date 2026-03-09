@@ -14,7 +14,10 @@ function MyPlanner() {
             });
             setPlans(res.data);
         } catch (err) {
-            console.error(err);
+            console.error("플래너 로드 실패:", err);
+            if (err.res && err.res.status === 403) {
+                alert("로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+            }
         }
     };
     getPlans();
