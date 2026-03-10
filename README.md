@@ -1,76 +1,64 @@
-# 0U Trip Planner
+# 0UTripPlanner Server
 
-**여행 계획을 생성하고 유저들과 공유할 수 있는 웹 플랫폼**
-
----
-
-0U Trip Planner는 사용자가 여행 계획을 작성하고, 이를 다른 사용자와 공유하거나 즐겨찾기할 수 있는 웹 기반 플랫폼입니다. React를 사용한 프론트엔드와 Node.js/Express를 사용한 백엔드로 구성되어 있으며, Kakao Maps API를 활용하여 여행지 정보를 제공합니다.
-
-## 🎯 프로젝트 개요
-
-여행 계획을 직접 세우는게 막막하거나, 여행 장소에 어떤 명소가 있는지, 맛집으로는 무엇이 있는지 찾는 것에 어려움을 겪는 사람들을 위해 다른 유저의 여행 계획들을 통해 쉽고 빠르게 확인 할 수 있도록 만든 서비스 입니다.
-**계획 작성 -> 지도로 위치 확인 -> 여행 계획 공유 및 북마크 까지**, 여행 전 과정을 하나로 담았습니다.
-
-
-## 📌 사용 기술
-
-- **Frontend**: React.js
-- **Backend**: Node.js, Express
-- **Database**: MySQL
-- **외부 API**: Kakao Maps, Kakao Login
-- **Dev Tools**: Android Studio, Postman, Git
+나만의 여행 계획을 세우고 타인과 공유하는 **0UTripPlanner**의 백엔드 서버 레포지토리입니다.  
+사용자 맞춤형 일정 생성, Kakao Maps API 기반 장소 검색, 북마크 및 플래너 공유 기능을 제공하는 RESTful 여행 플랫폼입니다.
 
 ---
 
-## ✨ 주요 기능
+## 🧩 주요 기능
 
-### 여행 계획 생성
-- 여행 제목, 인원, 목적, 기간 입력
-- 지도에서 장소 검색 + 장소 추가
-- 숙소 정보 등록
+### 1. 스마트 플래너 관리 (Core)
+* **일정 커스터마이징**: 여행지, 숙소, 인원, 목적 등을 포함한 상세 플래너 생성 및 관리
+* **가져오기 시스템(Import)**: 공유된 타인의 플래너를 내 보관함으로 복사하여 자유로운 2차 수정 지원
+* **북마크 시스템**: `isMarked` 플래그를 활용한 개인별 중요 일정 찜 기능
 
-### 플래너 공유 및 북마크
-- 여행 계획을 커뮤니티에 공유
-- 마음에 드는 계획은 북마크해서 저장
+### 2. 소셜 및 공유 기능
+* **전략적 공유 상태**: `isShared` 상태값을 이용한 공개 게시판 등록 및 비공개 전환 제어
+* **상호작용**: 공유 플래너 대상 '좋아요(Likes)' 카운팅 및 작성자 정보(User Join) 연동
 
-### 카카오 맵 연동
-- Kakao Maps API를 통해 장소 검색 기능 구현
-- 장소 추가 시 위치 확인 가능
+### 3. 위치 기반 서비스 (LBS)
+* **지도 인터페이스**: Kakao Maps SDK를 활용한 실시간 위치 렌더링 및 마커 표시
+* **키워드 검색**: 장소 검색 및 연관 검색어 리스트 제공, 클릭 시 해당 좌표로 부드러운 이동(PanTo)
+* **추천 시스템**: (예정) 공공데이터(TourAPI) 기반 지역별 맞춤형 여행지 추천 로직
 
-### 사용자 인증
-- 로컬 회원가입 / 로그인
-- 카카오 로그인 (OAuth 2.0 기반)
-- 로그아웃, 내 정보 수정 기능 제공
-
----
-
-## 🧪 개발하면서 배운 점
-
-- REST API 설계의 중요성: `/plans`, `/plans/{id}`로 명확하게 설계
-- Kakao Map API 연동에서 CORS 이슈 해결
-- Android 앱과의 통신을 위한 백엔드 CORS 설정
-- 계층적 API 구조 설계를 통한 확장성 개선
+### 4. 인증 및 보안
+* **Passport.js**: Session 기반의 검증된 유저 인증 및 역직렬화(Deserialize) 처리
+* **접근 제어**: `isLoggedIn` 커스텀 미들웨어를 통한 API 보호 및 비로그인 사용자 차단
 
 ---
 
-## 🛠 실행 방법
+## 🛠 기술 스택
 
-```bash
-# 백엔드
-cd backend
-npm install
-npm start
+### 🎨 Frontend
+- **Library**: React 18+
+- **Styling**: CSS3 (Custom Modules)
+- **State Management**: React Hooks (useState, useEffect)
+- **HTTP Client**: Axios
+- **Icons**: React-Icons
+- **Maps API**: Kakao Maps SDK
 
-# 프론트엔드
-cd frontend
-npm install
-npm start
+### ⚙️ Backend
+- **Language**: JavaScript (Node.js 20+)
+- **Framework**: Express.js 4.x
+- **ORM**: Sequelize
+- **Database**: MySQL 8.0
+- **Auth**: Passport.js (Session-based)
 
 ---
 
-## ✅ 향후 개선 계획
-- 여행 일정을 캘린더 형태로 시각화
-- 여행 코스 자동 추천 기능 추가
-- JWT 기반 인증 시스템 도입
-- 장소를 직접 검색하고 지도에 표시
-- 숙소/장소 간 거리 고려한 동선 계획
+## 📁 프로젝트 구조
+
+```text
+Project.0UTripPlanner
+├── models               # Sequelize 엔티티 정의 및 테이블 관계 설정
+│   ├── index.js         # 데이터베이스 연결 및 모델 초기화
+│   ├── user.js          # 회원 정보 및 계정 권한 도메인
+│   └── plan.js          # 여행 계획, 공유 상태, 북마크 핵심 도메인
+├── routes               # 컨트롤러 및 API 엔드포인트 분리
+│   ├── auth.js          # 회원가입, 로그인/로그아웃 인증 로직
+│   ├── share.js         # 공유 게시판 조회 및 좋아요/가져오기 처리
+│   ├── bookMark.js      # 개인 북마크 리스트 및 토글(Toggle) 기능
+│   └── myPlanner.js     # 개인 플래너 CRUD 및 관리 로직
+├── passport             # 인증 전략(Local Strategy) 및 세션 처리
+├── public               # 정적 파일 및 클라이언트 사이드 리소스
+└── views                # 서버 사이드 렌더링용 Nunjucks 템플릿
