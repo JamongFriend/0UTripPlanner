@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaTimes, FaEdit, FaTrash, FaShareAlt } from 'react-icons/fa';
+import { FaTimes, FaEdit, FaTrash, FaShareAlt, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import '../css/MyPlanner.css'
 
@@ -60,6 +60,26 @@ function MyPlanner() {
                 console.error("삭제 실패:", err);
                 alert("삭제 중 오류가 발생했습니다.");
             }
+        }
+    };
+
+    const handleBookmarkToggle = async (id) => {
+        try {
+            const res = await axios.post(`http://localhost:8002/bookMark/toggle/${id}`, {}, {
+                withCredentials: true
+            });
+            if (res.data.success) {
+                const updatedPlans = plans.map(p => 
+                    p.id === id ? { ...p, isMarked: res.data.isMarked } : p
+                );
+                setPlans(updatedPlans);
+                
+                if (selectedPlan && selectedPlan.id === id) {
+                    setSelectedPlan({ ...selectedPlan, isMarked: res.data.isMarked });
+                }
+            }
+        } catch (err) {
+            console.error("북마크 실패:", err);
         }
     };
 
@@ -151,6 +171,10 @@ function MyPlanner() {
 
                         {/* 내 플래너 관리 버튼 */}
                         <div className='modal_footer'>
+                            <button className='bookmark_btn' onClick={() => handleBookmarkToggle(selectedPlan.id)}
+                                style={{ color: selectedPlan.isMarked ? '#ffc107' : '#ccc' }} >
+                                {selectedPlan.isMarked ? <FaBookmark /> : <FaRegBookmark />} 북마크
+                            </button>
                             <button className='edit_btn' onClick={() => handleEdit(selectedPlan)}>
                                 <FaEdit /> 수정
                             </button>

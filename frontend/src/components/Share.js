@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../css/Share.css';
-import { FaSearch, FaHeart, FaDownload, FaTimes } from 'react-icons/fa';
+import { FaSearch, FaHeart, FaDownload, FaTimes, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 
 function Share() {
   const [sharedPlans, setSharedPlans] = useState([]);
@@ -38,7 +38,7 @@ function Share() {
 
   const handleImport = async (id) => {
     try {
-      const res = await axios.post(`http://localhost:8002/share/getplan/${id}`, {}, {
+      const res = await axios.post(`http://localhost:8002/share/getPlan/${id}`, {}, {
         withCredentials: true 
       });
       if (res.data.success) {
@@ -68,6 +68,30 @@ function Share() {
       }
     } catch (err) {
       console.error("좋아요 실패:", err);
+    }
+  };
+
+  const handleBookmarkToggle = async (id) => {
+    try {
+      const res = await axios.post(`http://localhost:8002/bookMark/toggle/${id}`, {}, {
+        withCredentials: true
+      });
+      
+      if (res.data.success) {
+        const updatedPlans = sharedPlans.map(p => 
+            p.id === id ? { ...p, isMarked: res.data.isMarked } : p
+        );
+        setSharedPlans(updatedPlans);
+        
+        if (selectedPlan && selectedPlan.id === id) {
+            setSelectedPlan({ ...selectedPlan, isMarked: res.data.isMarked });
+        }
+        
+        alert(res.data.isMarked ? "북마크 되었습니다!" : "북마크가 해제되었습니다.");
+      }
+    } catch (err) {
+        console.error("북마크 실패:", err);
+        alert("로그인이 필요하거나 북마크 처리에 실패했습니다.");
     }
   };
 
@@ -149,6 +173,9 @@ function Share() {
             <div className='modal_footer'>
               <button className='like_btn' onClick={() => handleLike(selectedPlan.id)}>
                   <FaHeart /> {selectedPlan.likes}
+              </button>
+              <button className='bookmark_btn' onClick={() => handleBookmarkToggle(selectedPlan.id)}>
+                  {selectedPlan.isMarked ? <FaBookmark style={{color: '#ffc107'}}/> : <FaRegBookmark />} 북마크
               </button>
               <button className='import_btn' onClick={() => handleImport(selectedPlan.id)}>
                   <FaDownload /> 내 플래너로 가져오기

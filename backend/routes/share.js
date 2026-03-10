@@ -93,7 +93,7 @@ router.get('/view/:id', async (req, res, next) => {
 });
 
 // 공유된 계획 내 보관함으로 가져오기 [POST/GET]
-router.post('/getplan/:id', isLoggedIn, async (req, res, next) => {
+router.post('/getPlan/:id', isLoggedIn, async (req, res, next) => {
     try {
         const sharedData = await Plan.findOne({
             where: { id: req.params.id, isShared: 1 }

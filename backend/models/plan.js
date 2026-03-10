@@ -49,6 +49,11 @@ module.exports = class Plan extends Sequelize.Model {
                 allowNull: false,
                 defaultValue: false
             },
+            isMarked: {
+                type: Sequelize.BOOLEAN,
+                allowNull: false,
+                defaultValue: false
+            },
             likes: {
                 type: Sequelize.INTEGER,
                 allowNull: false,

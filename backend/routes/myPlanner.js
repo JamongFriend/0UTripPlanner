@@ -8,7 +8,7 @@ const router = express.Router();
 
 // 생성
 router.post('/create', isLoggedIn, async (req, res, next) => {
-    const { planName, startDate, endDate, personnel, purpose, description, place, hotel, isShared } = req.body;
+    const { planName, startDate, endDate, personnel, purpose, description, place, hotel, isShared, isMarked } = req.body;
     try {
         await Plan.create({
             id: `plan_${Date.now()}`, 
@@ -21,6 +21,7 @@ router.post('/create', isLoggedIn, async (req, res, next) => {
             hotel,
             description,
             isShared: isShared ? 1 : 0,
+            isMarked: isMarked ? 1 : 0,
             userId: req.user.id
         });
         res.json({ success: true, message: '플래너 생성 성공' });
@@ -76,6 +77,7 @@ router.delete('/delete/:id', isLoggedIn, async (req, res, next) => {
         next(err);
     }
 });
+
 // 전체 목록 조회
 router.get('/readList', isLoggedIn, async (req, res, next) => {
     try {
@@ -92,6 +94,7 @@ router.get('/readList', isLoggedIn, async (req, res, next) => {
                 'hotel',
                 'description',
                 'isShared',
+                'isMarked',
                 'likes'
             ]
         });
@@ -102,7 +105,7 @@ router.get('/readList', isLoggedIn, async (req, res, next) => {
     }
 });
 
-// 여행 계획 출력
+// 여행 계획 상세보기
 router.get('/readPlan/:name', async (req, res, next) => {
     try {
         const plan = await Plan.findOne({
