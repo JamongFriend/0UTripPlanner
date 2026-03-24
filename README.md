@@ -62,3 +62,27 @@ Project.0UTripPlanner
 ├── passport             # 인증 전략(Local Strategy) 및 세션 처리
 ├── public               # 정적 파일 및 클라이언트 사이드 리소스
 └── views                # 서버 사이드 렌더링용 Nunjucks 템플릿
+
+---
+
+## 🚀 시작하기 (Getting Started)
+
+### 1. 필수 요구사항 (Prerequisites)
+- **Node.js**: v20.x 이상 권장
+- **MySQL**: v8.0 이상
+- **Kakao Maps API Key**: [카카오 개발자 콘솔](https://developers.kakao.com/)에서 발급 필요
+
+### 2. 설치 및 환경 설정 (Installation)
+```bash
+# 레포지토리 클론
+git clone [https://github.com/사용자계정/0UTripPlanner.git](https://github.com/사용자계정/0UTripPlanner.git)
+cd 0UTripPlanner
+
+# 의존성 패키지 설치
+npm install
+
+## 🔐 환경 변수 설정 (.env)
+- NODE_ENV: 개발 모드 설정
+- COOKIE_SECRET: 세션 암호화 키
+- DB_PASSWORD: MySQL 비밀번호
+- KAKAO_ID: 카카오 JavaScript/REST API 키
