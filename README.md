@@ -62,6 +62,7 @@ Project.0UTripPlanner
 ├── passport             # 인증 전략(Local Strategy) 및 세션 처리
 ├── public               # 정적 파일 및 클라이언트 사이드 리소스
 └── views                # 서버 사이드 렌더링용 Nunjucks 템플릿
+```
 
 ---
 
@@ -80,6 +81,7 @@ cd 0UTripPlanner
 
 # 의존성 패키지 설치
 npm install
+```
 
 ## 🔐 환경 변수 설정 (.env)
 - NODE_ENV: 개발 모드 설정
