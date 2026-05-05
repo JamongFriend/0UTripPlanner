@@ -22,6 +22,7 @@ const myPlannerRouter = require('./routes/myPlanner');
 const shareRouter = require('./routes/share');
 const suggestRouter = require('./routes/suggest');
 const bookMarkRouter = require('./routes/bookMark');
+const dayPlaceRouter = require('./routes/dayPlace');
 
 //env 파일 로드
 dotenv.config();
@@ -84,6 +85,7 @@ app.use('/myPlanner', myPlannerRouter);
 app.use('/share', shareRouter);
 app.use('/suggest', suggestRouter);
 app.use('/bookMark', bookMarkRouter);
+app.use('/dayPlace', dayPlaceRouter);
 
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 

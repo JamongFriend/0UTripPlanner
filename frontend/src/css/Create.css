@@ -184,3 +184,180 @@
     background-color: #e0e0e0;
     cursor: not-allowed;
 }
+
+/* ── Step2 일차 탭 ── */
+.day_tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.day_tab {
+    padding: 8px 20px;
+    border: 2px solid #BB86FC;
+    border-radius: 20px;
+    background: #fff;
+    color: #BB86FC;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.day_tab.active {
+    background: #BB86FC;
+    color: #fff;
+}
+
+.day_tab:hover:not(.active) {
+    background: #f3ebff;
+}
+
+/* ── 타임라인 목록 ── */
+.timeline_list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.no_schedule {
+    color: #aaa;
+    text-align: center;
+    padding: 30px 0;
+}
+
+.timeline_item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    transition: box-shadow 0.2s;
+}
+
+.timeline_item:hover {
+    box-shadow: 0 2px 8px rgba(187, 134, 252, 0.2);
+}
+
+.timeline_time {
+    font-size: 14px;
+    font-weight: bold;
+    color: #BB86FC;
+    min-width: 48px;
+}
+
+.timeline_icon {
+    font-size: 20px;
+}
+
+.timeline_info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.timeline_title {
+    font-weight: bold;
+    font-size: 15px;
+    color: #333;
+}
+
+.timeline_place {
+    font-size: 13px;
+    color: #888;
+    margin-top: 2px;
+}
+
+.timeline_delete_btn {
+    background: none;
+    border: none;
+    color: #ccc;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: color 0.2s;
+}
+
+.timeline_delete_btn:hover {
+    color: #ff5555;
+}
+
+/* ── 일정 추가 폼 ── */
+.add_place_form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    background: #f8f4ff;
+    border: 1px dashed #BB86FC;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.add_place_form input,
+.add_place_form select {
+    padding: 10px 14px;
+    border: 1px solid #d1d1d1;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    background: #fff;
+    transition: border-color 0.2s;
+}
+
+.add_place_form input:focus,
+.add_place_form select:focus {
+    border-color: #BB86FC;
+}
+
+.add_form_buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.add_form_buttons button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.add_form_buttons button:first-child {
+    background: #BB86FC;
+    color: #fff;
+}
+
+.add_form_buttons button:last-child {
+    background: #e0e0e0;
+    color: #555;
+}
+
+.add_form_buttons button:hover {
+    opacity: 0.85;
+}
+
+/* ── 일정 추가 버튼 ── */
+.add_schedule_btn {
+    width: 100%;
+    padding: 12px;
+    border: 2px dashed #BB86FC;
+    border-radius: 12px;
+    background: transparent;
+    color: #BB86FC;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background 0.2s;
+}
+
+.add_schedule_btn:hover {
+    background: #f3ebff;
+}

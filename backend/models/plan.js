@@ -36,10 +36,6 @@ module.exports = class Plan extends Sequelize.Model {
                 type: Sequelize.TEXT,
                 allowNull: true
             },
-            hotel: {
-                type: Sequelize.TEXT,
-                allowNull: true
-            },
             description: {
                 type: Sequelize.TEXT,
                 allowNull: true
@@ -73,5 +69,6 @@ module.exports = class Plan extends Sequelize.Model {
     
     static associate(db) {
         db.Plan.belongsTo(db.User, { foreignKey: 'userId', targetKey: 'id' });
+        db.Plan.hasMany(db.DayPlace, { foreignKey: 'planId', sourceKey: 'id', as: 'dayPlaces', onDelete: 'CASCADE' });
     }
 };

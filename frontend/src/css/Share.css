@@ -261,3 +261,60 @@
     padding-right: 40px;
     margin-bottom: 25px;
 }
+
+/* ── 모달 타임라인 ── */
+.timeline_section {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 16px;
+}
+
+.timeline_section > strong {
+    font-size: 15px;
+    color: #BB86FC;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.modal_day_group {
+    margin-bottom: 16px;
+}
+
+.modal_day_label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+    background: #BB86FC;
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+}
+
+.modal_timeline_item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px;
+    border-left: 2px solid #e8d5ff;
+    margin-left: 8px;
+    margin-bottom: 4px;
+}
+
+.modal_time {
+    font-size: 13px;
+    font-weight: bold;
+    color: #BB86FC;
+    min-width: 44px;
+}
+
+.modal_title {
+    font-size: 14px;
+    color: #333;
+    flex: 1;
+}
+
+.modal_place {
+    font-size: 12px;
+    color: #888;
+}

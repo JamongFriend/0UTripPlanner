@@ -136,7 +136,7 @@ function Share() {
                   <span>👤 {plan.writer}</span>
                   <span>❤️ {plan.likes}</span>
                 </div>
-                <button className='view_btn' onClick={() => setSelectedPlan(plan)}>계획 보기</button>
+                <button className='view_btn' onClick={() => setSelectedPlan(plan)}>상세 보기</button>
               </div>
             </div>
           ))
@@ -161,13 +161,28 @@ function Share() {
                 <p><strong>작성자:</strong> {selectedPlan.writer}</p>
                 <p><strong>📅 여행 기간:</strong> {formatDate(selectedPlan.startDate)} ~ {formatDate(selectedPlan.endDate)}</p>
                 <p><strong>📍 장소:</strong> {selectedPlan.place || '정보 없음'}</p>
-                <p><strong>🏨 숙소:</strong> {selectedPlan.hotel || '정보 없음'}</p>
-                <p><strong>숙소 정보:</strong> {selectedPlan.hotel || '정보 없음'}</p>
+                <p><strong>🎯 목적:</strong> {selectedPlan.purpose || "정보 없음"}</p>
+                {selectedPlan.description && <p><strong>📋 메모:</strong> {selectedPlan.description}</p>}
               </div>
-              <div className='description_section'>
-                <p><strong>🎯 목적:</strong> {selectedPlan.perpose || selectedPlan.purpose || "설정된 목적이 없습니다."}</p>
-                <p>{selectedPlan.description || "이 여행지에 대한 상세 설명이 없습니다."}</p>
-              </div>
+              {selectedPlan.dayPlaces && selectedPlan.dayPlaces.length > 0 && (
+                <div className='timeline_section'>
+                  <strong>📆 일정</strong>
+                  {[...new Set(selectedPlan.dayPlaces.map(p => p.day))].sort((a,b) => a-b).map(day => (
+                    <div key={day} className='modal_day_group'>
+                      <div className='modal_day_label'>{day}일차</div>
+                      {selectedPlan.dayPlaces
+                        .filter(p => p.day === day)
+                        .map((p, i) => (
+                          <div key={i} className='modal_timeline_item'>
+                            <span className='modal_time'>{p.time || '--:--'}</span>
+                            <span className='modal_title'>{p.title}</span>
+                            {p.placeName && <span className='modal_place'>📍 {p.placeName}</span>}
+                          </div>
+                        ))}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className='modal_footer'>

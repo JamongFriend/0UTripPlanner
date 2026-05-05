@@ -1,30 +1,29 @@
 //여행계획 관리 기능
 
 const express = require('express');
-const Plan = require('../models/plan');
+const { Plan, DayPlace } = require('../models');
 const { isLoggedIn } = require('./helpers');
 
 const router = express.Router();
 
 // 생성
 router.post('/create', isLoggedIn, async (req, res, next) => {
-    const { planName, startDate, endDate, personnel, purpose, description, place, hotel, isShared, isMarked } = req.body;
+    const { planName, startDate, endDate, personnel, purpose, description, place, isShared, isMarked } = req.body;
     try {
-        await Plan.create({
-            id: `plan_${Date.now()}`, 
+        const plan = await Plan.create({
+            id: `plan_${Date.now()}`,
             planName,
             startDate,
             endDate,
             personnel,
             purpose,
             place,
-            hotel,
             description,
             isShared: isShared ? 1 : 0,
             isMarked: isMarked ? 1 : 0,
             userId: req.user.id
         });
-        res.json({ success: true, message: '플래너 생성 성공' });
+        res.json({ success: true, planId: plan.id });
     } catch (err) {
         console.error(err);
         next(err);
@@ -34,7 +33,7 @@ router.post('/create', isLoggedIn, async (req, res, next) => {
 // 수정
 router.post('/edit/:id', isLoggedIn, async (req, res, next) => {
     try {
-        const { planName, startDate, endDate, personnel, purpose, place, hotel, description, isShared } = req.body;
+        const { planName, startDate, endDate, personnel, purpose, place, description, isShared } = req.body;
         console.log("백엔드가 실제 받은 데이터:", req.body);
         const result = await Plan.update({
             planName,
@@ -43,7 +42,6 @@ router.post('/edit/:id', isLoggedIn, async (req, res, next) => {
             personnel,
             purpose,
             place,
-            hotel,
             description,
             isShared: Number(isShared),
         }, {
@@ -79,6 +77,13 @@ router.delete('/delete/:id', isLoggedIn, async (req, res, next) => {
 });
 
 // 전체 목록 조회
+// [N+1 문제 발생 버전 - 사용하지 않음]
+// const plans = await Plan.findAll({ where: { userId: req.user.id } });
+// for (const plan of plans) {
+//     plan.dayPlaces = await plan.getDayPlaces(); // Plan 개수만큼 SELECT 쿼리 추가 발생
+// }
+//
+// [Eager Loading으로 개선 - JOIN 단일 쿼리로 처리]
 router.get('/readList', isLoggedIn, async (req, res, next) => {
     try {
         const plans = await Plan.findAll({
@@ -87,15 +92,25 @@ router.get('/readList', isLoggedIn, async (req, res, next) => {
                 'id',
                 ['planName', 'name'],
                 'startDate',
-                'endDate', 
-                ['personnel', 'peoples'], 
-                ['purpose', 'perpose'], 
-                'place', 
-                'hotel',
+                'endDate',
+                ['personnel', 'peoples'],
+                ['purpose', 'perpose'],
+                'place',
                 'description',
                 'isShared',
                 'isMarked',
                 'likes'
+            ],
+            include: [{
+                model: DayPlace,
+                as: 'dayPlaces',
+                attributes: ['id', 'day', 'time', 'title', 'category', 'placeName', 'address', 'latitude', 'longitude'],
+                required: false
+            }],
+            order: [
+                ['createdAt', 'DESC'],
+                [{ model: DayPlace, as: 'dayPlaces' }, 'day', 'ASC'],
+                [{ model: DayPlace, as: 'dayPlaces' }, 'time', 'ASC']
             ]
         });
         res.json(plans);
@@ -111,13 +126,22 @@ router.get('/readPlan/:name', async (req, res, next) => {
         const plan = await Plan.findOne({
             where: { planName: req.params.name },
             attributes: [
-                'id', 
-                ['planName', 'name'], 
-                ['startDate', 'date'], 
-                ['personnel', 'peoples'], 
-                ['purpose', 'perpose'], 
-                'place', 
-                'hotel'
+                'id',
+                ['planName', 'name'],
+                ['startDate', 'date'],
+                ['personnel', 'peoples'],
+                ['purpose', 'perpose'],
+                'place'
+            ],
+            include: [{
+                model: DayPlace,
+                as: 'dayPlaces',
+                attributes: ['id', 'day', 'time', 'title', 'category', 'placeName', 'address', 'latitude', 'longitude'],
+                required: false
+            }],
+            order: [
+                [{ model: DayPlace, as: 'dayPlaces' }, 'day', 'ASC'],
+                [{ model: DayPlace, as: 'dayPlaces' }, 'time', 'ASC']
             ]
         });
 

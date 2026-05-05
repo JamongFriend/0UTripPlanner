@@ -2,8 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const Plan = require('../models/plan');
-const User = require('../models/user');
+const { Plan, User, DayPlace } = require('../models');
 const { isLoggedIn } = require('./helpers');
 
 // 북마크 추가하기
@@ -36,25 +35,34 @@ router.get('/readList', isLoggedIn, async (req, res, next) => {
     try {
         const plans = await Plan.findAll({
             where: { isMarked: 1, userId: req.user.id },
-            include: [{
-                model: User,
-                attributes: ['name']
-            }],
-            order: [['createdAt', 'DESC']]
+            include: [
+                { model: User, attributes: ['name'] },
+                {
+                    model: DayPlace,
+                    as: 'dayPlaces',
+                    attributes: ['id', 'day', 'time', 'title', 'category', 'placeName'],
+                    required: false
+                }
+            ],
+            order: [
+                ['createdAt', 'DESC'],
+                [{ model: DayPlace, as: 'dayPlaces' }, 'day', 'ASC'],
+                [{ model: DayPlace, as: 'dayPlaces' }, 'time', 'ASC']
+            ]
         });
 
         const formattedPlans = plans.map(p => ({
             id: p.id,
-            title: p.planName, 
-            writer: p.User ? p.User.name : '익명', 
+            title: p.planName,
+            writer: p.User ? p.User.name : '익명',
             likes: p.likes,
             place: p.place,
             startDate: p.startDate,
             endDate: p.endDate,
-            hotel: p.hotel,
             purpose: p.purpose,
             description: p.description,
-            isMarked: p.isMarked
+            isMarked: p.isMarked,
+            dayPlaces: p.dayPlaces || []
         }));
 
         res.json(formattedPlans);
@@ -75,9 +83,8 @@ router.get('/view/:id', async (req, res, next) => {
                 'startDate', 
                 'endDate',
                 ['personnel', 'peoples'], 
-                ['purpose', 'perpose'], 
-                'place', 
-                'hotel',
+                ['purpose', 'perpose'],
+                'place',
                 'description',
                 'userId',
                 'likes',

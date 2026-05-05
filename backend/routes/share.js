@@ -2,8 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const Plan = require('../models/plan');
-const User = require('../models/user');
+const { Plan, User, DayPlace } = require('../models');
 const { isLoggedIn } = require('./helpers');
 
 // 여행 계획 공유 [POST]
@@ -34,25 +33,34 @@ router.get('/readList', async (req, res, next) => {
     try {
         const plans = await Plan.findAll({
             where: { isShared: 1 },
-            include: [{
-                model: User,
-                attributes: ['name']
-            }],
-            order: [['createdAt', 'DESC']]
+            include: [
+                { model: User, attributes: ['name'] },
+                {
+                    model: DayPlace,
+                    as: 'dayPlaces',
+                    attributes: ['id', 'day', 'time', 'title', 'category', 'placeName'],
+                    required: false
+                }
+            ],
+            order: [
+                ['createdAt', 'DESC'],
+                [{ model: DayPlace, as: 'dayPlaces' }, 'day', 'ASC'],
+                [{ model: DayPlace, as: 'dayPlaces' }, 'time', 'ASC']
+            ]
         });
 
         const formattedPlans = plans.map(p => ({
             id: p.id,
-            title: p.planName, 
-            writer: p.User ? p.User.name : '익명', 
+            title: p.planName,
+            writer: p.User ? p.User.name : '익명',
             likes: p.likes,
             place: p.place,
             startDate: p.startDate,
             endDate: p.endDate,
-            hotel: p.hotel,
             purpose: p.purpose,
             description: p.description,
-            userId: p.userId
+            userId: p.userId,
+            dayPlaces: p.dayPlaces || []
         }));
 
         res.json(formattedPlans);
@@ -73,9 +81,8 @@ router.get('/view/:id', async (req, res, next) => {
                 'startDate', 
                 'endDate',
                 ['personnel', 'peoples'], 
-                ['purpose', 'perpose'], 
-                'place', 
-                'hotel',
+                ['purpose', 'perpose'],
+                'place',
                 'userId',
                 'likes'
             ]
@@ -113,7 +120,6 @@ router.post('/getPlan/:id', isLoggedIn, async (req, res, next) => {
             personnel: sharedData.personnel,
             purpose: sharedData.purpose,
             place: sharedData.place,
-            hotel: sharedData.hotel,
             description: (sharedData.description || "") + originalInfo,
             userId: req.user.id, 
             isShared: 0,
