@@ -47,6 +47,11 @@ module.exports = class DayPlace extends Sequelize.Model {
             longitude: {
                 type: Sequelize.DECIMAL(10, 7),
                 allowNull: true
+            },
+            cost: {
+                type: Sequelize.INTEGER,
+                allowNull: true,
+                defaultValue: 0
             }
         }, {
             sequelize,

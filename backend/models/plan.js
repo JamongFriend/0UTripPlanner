@@ -54,6 +54,11 @@ module.exports = class Plan extends Sequelize.Model {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 defaultValue: 0
+            },
+            budget: {
+                type: Sequelize.INTEGER,
+                allowNull: true,
+                defaultValue: 0
             }
         }, {
             sequelize,

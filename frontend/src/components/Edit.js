@@ -26,7 +26,8 @@ function Edit() {
         title: '',
         category: '기타',
         placeName: '',
-        address: ''
+        address: '',
+        cost: ''
     });
 
     useEffect(() => {
@@ -44,7 +45,8 @@ function Edit() {
             personnel: planData.peoples || planData.personnel || 1,
             purpose: planData.perpose || planData.purpose || "",
             place: planData.place || "",
-            description: planData.description || ""
+            description: planData.description || "",
+            budget: planData.budget || ""
         });
 
         setIsShared(planData.isShared === 1 || planData.isShared === true);
@@ -117,7 +119,7 @@ function Edit() {
 
             if (res.data.success) {
                 setDayPlaces([...dayPlaces, { ...newPlace, day: currentDay, id: res.data.data.id }]);
-                setNewPlace({ time: '', title: '', category: '기타', placeName: '', address: '' });
+                setNewPlace({ time: '', title: '', category: '기타', placeName: '', address: '', cost: '' });
                 setShowAddForm(false);
             }
         } catch (err) {
@@ -140,6 +142,9 @@ function Edit() {
     const currentDayPlaces = dayPlaces
         .filter(p => p.day === currentDay)
         .sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+
+    const currentDayCost = currentDayPlaces.reduce((sum, p) => sum + (Number(p.cost) || 0), 0);
+    const totalCost = dayPlaces.reduce((sum, p) => sum + (Number(p.cost) || 0), 0);
 
     if (!formData) return <div>로딩 중...</div>;
 
@@ -218,6 +223,15 @@ function Edit() {
                                 </div>
                             </div>
 
+                            <div className='plan_budget_wrap'>
+                                <div className='content_title'>
+                                    <div className='plan_budget_title'>여행 예산</div>
+                                </div>
+                                <div className='input_box'>
+                                    <input type="number" name="budget" value={formData.budget} onChange={handleChange} min="0" placeholder="총 예산을 입력하세요 (원)" />
+                                </div>
+                            </div>
+
                             <div className='plan_description_wrap'>
                                 <div className='content_title'>
                                     <div className='plan_description_title'>플래너 설명</div>
@@ -290,6 +304,9 @@ function Edit() {
                                             <span className='timeline_title'>{p.title}</span>
                                             {p.placeName && <span className='timeline_place'>{p.placeName}</span>}
                                         </div>
+                                        {p.cost > 0 && (
+                                            <span className='timeline_cost'>{Number(p.cost).toLocaleString()}원</span>
+                                        )}
                                         <button
                                             type="button"
                                             className='timeline_delete_btn'
@@ -298,6 +315,12 @@ function Edit() {
                                     </div>
                                 ))
                             )}
+                        </div>
+
+                        {/* 일차별 경비 합산 */}
+                        <div className='cost_summary'>
+                            <span>{currentDay}일차 경비: {currentDayCost.toLocaleString()}원</span>
+                            <span>전체 여행경비: {totalCost.toLocaleString()}원{formData.budget ? ` / 예산 ${Number(formData.budget).toLocaleString()}원` : ''}</span>
                         </div>
 
                         {/* 일정 추가 폼 */}
@@ -333,6 +356,13 @@ function Edit() {
                                     placeholder="주소 (선택)"
                                     value={newPlace.address}
                                     onChange={(e) => setNewPlace({ ...newPlace, address: e.target.value })}
+                                />
+                                <input
+                                    type="number"
+                                    placeholder="비용 (선택, 원)"
+                                    min="0"
+                                    value={newPlace.cost}
+                                    onChange={(e) => setNewPlace({ ...newPlace, cost: e.target.value })}
                                 />
                                 <div className='add_form_buttons'>
                                     <button type="button" onClick={handleAddPlace}>추가</button>

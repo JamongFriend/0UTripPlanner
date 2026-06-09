@@ -7,7 +7,7 @@ const { isLoggedIn } = require('./helpers');
 
 // 장소 추가
 router.post('/create', isLoggedIn, async (req, res, next) => {
-    const { planId, day, time, title, category, placeName, address, latitude, longitude } = req.body;
+    const { planId, day, time, title, category, placeName, address, latitude, longitude, cost } = req.body;
     try {
         const plan = await Plan.findOne({ where: { id: planId, userId: req.user.id } });
         if (!plan) return res.status(404).json({ message: '플래너를 찾을 수 없습니다.' });
@@ -21,7 +21,8 @@ router.post('/create', isLoggedIn, async (req, res, next) => {
             placeName,
             address,
             latitude,
-            longitude
+            longitude,
+            cost: cost || 0
         });
         res.status(201).json({ success: true, data: dayPlace });
     } catch (err) {
@@ -50,7 +51,7 @@ router.get('/list/:planId', isLoggedIn, async (req, res, next) => {
 // 장소 수정
 router.put('/edit/:id', isLoggedIn, async (req, res, next) => {
     try {
-        const { placeName, address, latitude, longitude, day, visitOrder } = req.body;
+        const { placeName, address, latitude, longitude, day, visitOrder, cost } = req.body;
 
         // 본인 플래너의 장소인지 확인
         const dayPlace = await DayPlace.findOne({
@@ -60,7 +61,7 @@ router.put('/edit/:id', isLoggedIn, async (req, res, next) => {
         if (!dayPlace) return res.status(404).json({ message: '장소를 찾을 수 없습니다.' });
 
         await DayPlace.update(
-            { placeName, address, latitude, longitude, day, visitOrder },
+            { placeName, address, latitude, longitude, day, visitOrder, cost },
             { where: { id: req.params.id } }
         );
         res.json({ success: true });

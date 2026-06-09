@@ -8,7 +8,7 @@ const router = express.Router();
 
 // 생성
 router.post('/create', isLoggedIn, async (req, res, next) => {
-    const { planName, startDate, endDate, personnel, purpose, description, place, isShared, isMarked } = req.body;
+    const { planName, startDate, endDate, personnel, purpose, description, place, isShared, isMarked, budget } = req.body;
     try {
         const plan = await Plan.create({
             id: `plan_${Date.now()}`,
@@ -21,6 +21,7 @@ router.post('/create', isLoggedIn, async (req, res, next) => {
             description,
             isShared: isShared ? 1 : 0,
             isMarked: isMarked ? 1 : 0,
+            budget: budget || 0,
             userId: req.user.id
         });
         res.json({ success: true, planId: plan.id });
@@ -33,7 +34,7 @@ router.post('/create', isLoggedIn, async (req, res, next) => {
 // 수정
 router.post('/edit/:id', isLoggedIn, async (req, res, next) => {
     try {
-        const { planName, startDate, endDate, personnel, purpose, place, description, isShared } = req.body;
+        const { planName, startDate, endDate, personnel, purpose, place, description, isShared, budget } = req.body;
         console.log("백엔드가 실제 받은 데이터:", req.body);
         const result = await Plan.update({
             planName,
@@ -44,6 +45,7 @@ router.post('/edit/:id', isLoggedIn, async (req, res, next) => {
             place,
             description,
             isShared: Number(isShared),
+            budget: budget || 0,
         }, {
             where: { 
                 id: req.params.id,
@@ -99,12 +101,13 @@ router.get('/readList', isLoggedIn, async (req, res, next) => {
                 'description',
                 'isShared',
                 'isMarked',
-                'likes'
+                'likes',
+                'budget'
             ],
             include: [{
                 model: DayPlace,
                 as: 'dayPlaces',
-                attributes: ['id', 'day', 'time', 'title', 'category', 'placeName', 'address', 'latitude', 'longitude'],
+                attributes: ['id', 'day', 'time', 'title', 'category', 'placeName', 'address', 'latitude', 'longitude', 'cost'],
                 required: false
             }],
             order: [

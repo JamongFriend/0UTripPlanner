@@ -14,7 +14,8 @@ function Create() {
         personnel: 1,
         purpose: '',
         place: '',
-        description: ''
+        description: '',
+        budget: ''
     });
     const [isShared, setIsShared] = useState(false);
 
@@ -31,7 +32,8 @@ function Create() {
         title: '',
         category: '기타',
         placeName: '',
-        address: ''
+        address: '',
+        cost: ''
     });
 
     // 여행 일수 계산
@@ -95,7 +97,7 @@ function Create() {
 
             if (res.data.success) {
                 setDayPlaces([...dayPlaces, { ...newPlace, day: currentDay, id: res.data.data.id }]);
-                setNewPlace({ time: '', title: '', category: '기타', placeName: '', address: '' });
+                setNewPlace({ time: '', title: '', category: '기타', placeName: '', address: '', cost: '' });
                 setShowAddForm(false);
             }
         } catch (err) {
@@ -118,6 +120,9 @@ function Create() {
     const currentDayPlaces = dayPlaces
         .filter(p => p.day === currentDay)
         .sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+
+    const currentDayCost = currentDayPlaces.reduce((sum, p) => sum + (Number(p.cost) || 0), 0);
+    const totalCost = dayPlaces.reduce((sum, p) => sum + (Number(p.cost) || 0), 0);
 
     // ─── Step1: 기본 정보 입력 ───
     if (step === 1) {
@@ -189,6 +194,15 @@ function Create() {
                                             className="partition_input"
                                         />
                                     </div>
+                                </div>
+                            </div>
+
+                            <div className='plan_budget_wrap'>
+                                <div className='content_title'>
+                                    <div className='plan_budget_title'>여행 예산</div>
+                                </div>
+                                <div className='input_box'>
+                                    <input type="number" name="budget" value={formData.budget} onChange={handleChange} min="0" placeholder="총 예산을 입력하세요 (원)" />
                                 </div>
                             </div>
 
@@ -264,6 +278,9 @@ function Create() {
                                             <span className='timeline_title'>{p.title}</span>
                                             {p.placeName && <span className='timeline_place'>{p.placeName}</span>}
                                         </div>
+                                        {p.cost > 0 && (
+                                            <span className='timeline_cost'>{Number(p.cost).toLocaleString()}원</span>
+                                        )}
                                         <button
                                             type="button"
                                             className='timeline_delete_btn'
@@ -272,6 +289,12 @@ function Create() {
                                     </div>
                                 ))
                             )}
+                        </div>
+
+                        {/* 일차별 경비 합산 */}
+                        <div className='cost_summary'>
+                            <span>{currentDay}일차 경비: {currentDayCost.toLocaleString()}원</span>
+                            <span>전체 여행경비: {totalCost.toLocaleString()}원{formData.budget ? ` / 예산 ${Number(formData.budget).toLocaleString()}원` : ''}</span>
                         </div>
 
                         {/* 일정 추가 폼 */}
@@ -307,6 +330,13 @@ function Create() {
                                     placeholder="주소 (선택)"
                                     value={newPlace.address}
                                     onChange={(e) => setNewPlace({ ...newPlace, address: e.target.value })}
+                                />
+                                <input
+                                    type="number"
+                                    placeholder="비용 (선택, 원)"
+                                    min="0"
+                                    value={newPlace.cost}
+                                    onChange={(e) => setNewPlace({ ...newPlace, cost: e.target.value })}
                                 />
                                 <div className='add_form_buttons'>
                                     <button type="button" onClick={handleAddPlace}>추가</button>
