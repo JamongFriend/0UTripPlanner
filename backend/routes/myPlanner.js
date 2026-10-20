@@ -79,13 +79,6 @@ router.delete('/delete/:id', isLoggedIn, async (req, res, next) => {
 });
 
 // 전체 목록 조회
-// [N+1 문제 발생 버전 - 사용하지 않음]
-// const plans = await Plan.findAll({ where: { userId: req.user.id } });
-// for (const plan of plans) {
-//     plan.dayPlaces = await plan.getDayPlaces(); // Plan 개수만큼 SELECT 쿼리 추가 발생
-// }
-//
-// [Eager Loading으로 개선 - JOIN 단일 쿼리로 처리]
 router.get('/readList', isLoggedIn, async (req, res, next) => {
     try {
         const plans = await Plan.findAll({

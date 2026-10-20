@@ -103,7 +103,8 @@ router.get('/view/:id', async (req, res, next) => {
 router.post('/getPlan/:id', isLoggedIn, async (req, res, next) => {
     try {
         const sharedData = await Plan.findOne({
-            where: { id: req.params.id, isShared: 1 }
+            where: { id: req.params.id, isShared: 1 },
+            include: [{ model: DayPlace, as: 'dayPlaces', required: false }]
         });
 
         if (!sharedData) {
@@ -111,9 +112,10 @@ router.post('/getPlan/:id', isLoggedIn, async (req, res, next) => {
         }
 
         const originalInfo = `\n\n[원작자: ${sharedData.userId || '익명'}]`;
-        
+        const newPlanId = `plan_${Date.now()}`;
+
         await Plan.create({
-            id: `plan_${Date.now()}`, 
+            id: newPlanId,
             planName: sharedData.planName + " (복사본)",
             startDate: sharedData.startDate,
             endDate: sharedData.endDate,
@@ -121,10 +123,26 @@ router.post('/getPlan/:id', isLoggedIn, async (req, res, next) => {
             purpose: sharedData.purpose,
             place: sharedData.place,
             description: (sharedData.description || "") + originalInfo,
-            userId: req.user.id, 
+            userId: req.user.id,
             isShared: 0,
             likes: 0
         });
+
+        if (sharedData.dayPlaces && sharedData.dayPlaces.length > 0) {
+            await DayPlace.bulkCreate(sharedData.dayPlaces.map(dp => ({
+                planId: newPlanId,
+                day: dp.day,
+                time: dp.time,
+                title: dp.title,
+                category: dp.category,
+                placeName: dp.placeName,
+                address: dp.address,
+                latitude: dp.latitude,
+                longitude: dp.longitude,
+                cost: dp.cost
+            })));
+        }
+
         res.json({ success: true, message: '내 플래너로 가져왔습니다. 이제 자유롭게 수정해보세요!' });
     } catch (err) {
         console.error(err);
